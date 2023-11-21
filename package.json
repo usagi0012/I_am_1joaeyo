@@ -1,0 +1,17 @@
+{
+  "name": "i_am_1joaeyo",
+  "version": "1.0.0",
+  "description": "B-1조 뉴스피드 만들기 과제",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "nodemon": "^3.0.1"
+  }
+}
