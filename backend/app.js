@@ -1,5 +1,6 @@
 import express from 'express';
 import db from './models/index.cjs';
+import apiRouter from './routers/index.js';
 
 const app = express();
 const port = 3000;
@@ -13,6 +14,8 @@ try {
 
 app.use(express.json());
 app.use(express.urlencoded());
+
+app.use(apiRouter);
 
 app.listen(port, () => {
     console.log(`서버가 정상적으로 실행되었습니다. port : ${port}`);
