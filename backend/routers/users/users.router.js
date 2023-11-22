@@ -138,5 +138,23 @@ usersRouter.patch('/members', async (req, res) => {
 });
 
 //회원 탈퇴 API
+usersRouter.delete('/members', async (req, res) => {
+    try {
+        //미들웨어 가져오면 주석해제
+        // const id = res.locals.user;
+        const id = 3;
+        await Users.destroy({ where: { id } });
+        res.status(200).json({
+            success: true,
+            message: '탈퇴가 처리되었습니다.',
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            message: '알 수 없는 오류가 발생하였습니다. 관리자에게 문의하세요.',
+        });
+    }
+});
 
 export default usersRouter;
