@@ -78,7 +78,7 @@ usersRouter.patch('/members', async (req, res) => {
         //이부분 회원가입 구현 하시면 hash 부분 보고 수정할게요 암호화 없이 기본으로 해놨어요
         //비밀번호 수정 부분(셋 중 하나라도 채워져있으면 비밀번호 변경 실행)
         if (currentPassword || newPassword || confirmNewPassword) {
-            //둘 중 하나라도 없으면 오류
+            //셋 중 하나라도 없으면 오류
             if (!currentPassword || !newPassword || !confirmNewPassword) {
                 return res.status(400).json({
                     success: false,
