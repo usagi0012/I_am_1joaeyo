@@ -14,7 +14,7 @@ authRouter.get('/signup', (req, res) => {
 authRouter.post('/signup', async (req, res) => {
     try {
         const { nickname, email, password, passwordConfirm } = req.body;
-
+        console.log(password, '   ', passwordConfirm);
         if (!nickname || !email || !password) {
             return res.status(400).json({
                 success: false,
