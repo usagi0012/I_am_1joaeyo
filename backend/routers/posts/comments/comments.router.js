@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import db from '../../../models/index.cjs';
 import Response from '../../../util/response/response.js';
-import moment from 'moment-timezone';
+import { needSignin } from '../../../middleware/auth.middleware.js';
 
 const commentsRouter = Router();
 const { Comments, Posts, Users } = db;
@@ -9,10 +9,9 @@ const { Comments, Posts, Users } = db;
 /**
  * 덧글 작성 API
  */
-commentsRouter.post('/:postId/comments', async (req, res) => {
+commentsRouter.post('/:postId/comments', needSignin, async (req, res) => {
     const { postId } = req.params;
-    //const userId = req.user; 인증 완료시 사용
-    const userId = 1;
+    const userId = res.locals.user;
     const { content } = req.body;
 
     const postResult = await Posts.findOne({
@@ -110,12 +109,10 @@ commentsRouter.patch('/:postId/:commentId', async (req, res) => {
  */
 commentsRouter.delete('/:postId/:commentId', async (req, res) => {
     const { postId, commentId } = req.params;
-    //const userId = req.user; 미들웨어시
-    const userId = 1;
 
     const deleteResult = await Comments.destroy({
         where: {
-            userId,
+            postId,
             id: commentId,
         },
     });
