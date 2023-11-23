@@ -111,17 +111,21 @@ authRouter.post('/signin', async (req, res) => {
         });
     }
     const user = (await Users.findOne({ where: { email } }))?.toJSON();
-    const hashedPassword = user?.password;
-    const ispasswordMatched = bcrypt.compareSync(password, hashedPassword);
-
-    const iscorrectUser = user && ispasswordMatched;
-
-    if (!iscorrectUser) {
+    if (!user) {
         return res.status(401).json({
             success: false,
-            message: '유저 정보가 없습니다.',
+            message: '유저 정보가 없습니다',
         });
     }
+    const hashedPassword = user?.password;
+    const ispasswordMatched = bcrypt.compareSync(password, hashedPassword);
+    if (!ispasswordMatched) {
+        return res.status(401).json({
+            success: false,
+            message: '비밀번호가 틀립니다.',
+        });
+    }
+    
     try {
         const accessToken = jwt.sign({ userId: user.id }, 'rq=khGP3fcOT{LV', {
             expiresIn: '1h',
