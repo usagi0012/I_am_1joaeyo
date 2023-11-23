@@ -102,36 +102,59 @@ body {
     width: 100%;
 }
 
-.cardBox {
+.contentBox {
     height: 10rem;
     display: grid;
     grid-template-areas:
         'title title like'
-        'name . date';
-    grid-template-columns: 3fr 3fr 1fr;
+        'foot foot foot';
+    grid-template-columns: 3fr 3fr 1.5fr;
     grid-template-rows: 2fr 1fr;
     font-family: 'GmarketSans';
-    font-weight: lighter;
-    color: #dfdfe0;
 }
 
 .postTitle {
     grid-area: title;
     text-align: center;
     padding-top: 5px;
+    font-weight: 500;
+    font-size: 1.5rem;
+    color: white;
 }
 
-.cardBox > i {
+.likes {
     grid-area: like;
-    padding: 3px;
+    text-align: center;
+    padding-top: 10px;
+    color: white;
+}
+
+.likes > i {
+    color: red;
+}
+
+.cardFoot {
+    grid-area: foot;
+    display: grid;
+    grid-template-areas: 'name date';
+    grid-template-columns: repeat(2, 1fr);
+    background-color: #2a2a3d;
 }
 
 .postWriter {
     grid-area: name;
+    text-align: start;
+    font-weight: 400;
+    font-size: 1rem;
+    color: #feba69;
 }
 
 .postDate {
     grid-area: date;
+    text-align: end;
+    font-weight: 400;
+    font-size: 1rem;
+    color: #dfdfe0;
 }
 
 /* 컨테이너 제목 */
