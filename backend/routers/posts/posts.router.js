@@ -2,6 +2,7 @@ import express from 'express';
 import db from '../../models/index.cjs';
 import Response from '../../util/response/response.js';
 import moment from 'moment-timezone';
+import { needSignin } from '../../middleware/auth.middleware.js';
 
 const postsRouter = express.Router();
 const { Posts, Users, Likes } = db;
@@ -75,10 +76,9 @@ postsRouter.post('/testCreate', async (req, res) => {
 });
 
 // 게시글 작성 API
-postsRouter.post('/', async (req, res) => {
+postsRouter.post('/', needSignin, async (req, res) => {
     try {
-        // const { id: userId } = res.locals.user
-        const userId = 1;
+        const userId = res.locals.user;
         const { title, content, image } = req.body;
 
         if (!title || !content || !image) {
@@ -105,10 +105,9 @@ postsRouter.post('/', async (req, res) => {
 });
 
 // 게시글 수정 API
-postsRouter.put('/:postId', async (req, res) => {
+postsRouter.put('/:postId', needSignin, async (req, res) => {
     try {
-        // const { id: userId } = res.locals.user
-        const userId = 1;
+        const userId = res.locals.user;
         const { postId } = req.params;
         const { title, content, image } = req.body;
 
@@ -159,10 +158,9 @@ postsRouter.put('/:postId', async (req, res) => {
 });
 
 // 게시글 삭제 API
-postsRouter.delete('/:postId', async (req, res) => {
+postsRouter.delete('/:postId', needSignin, async (req, res) => {
     try {
-        // const { id: userId } = res.locals.user
-        const userId = 1;
+        const userId = res.locals.user;
         const { postId } = req.params;
 
         const post = await Posts.findByPk(postId);
