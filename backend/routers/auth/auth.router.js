@@ -1,5 +1,97 @@
 import { Router } from 'express';
-
+import bcrypt from 'bcrypt';
+import db from '../../models/index.cjs';
 const authRouter = Router();
+const { Users } = db;
+
+authRouter.get('/signup', (req, res) => {
+    res.send(200);
+});
+
+authRouter.post('/signup', async (req, res) => {
+    try {
+        const { nickname, email, password, passwordConfirm } = req.body;
+
+        if (!nickname || !email || !password) {
+            return res.status(400).json({
+                success: false,
+                message: '닉네임을 입력해주세요.',
+            });
+        }
+
+        if (password !== passwordConfirm) {
+            return res.status(400).json({
+                success: false,
+                message: '비밀번호와 비밀번호 확인이 일치하지 않습니다.',
+            });
+        }
+
+        if (password.length < 6) {
+            return res.status(400).json({
+                success: false,
+                message: '비밀번호는 최소 6자리 이상이어야 합니다.',
+            });
+        }
+
+        //닉네임 유효성 검사 함수
+        const validNickname = nickname => {
+            const nicknameRegex = /^([a-zA-Z0-9ㄱ-ㅎ|ㅏ-ㅣ|가-힣]).{1,10}$/i;
+            return nicknameRegex.test(nickname);
+        };
+        if (!validNickname(nickname)) {
+            return res.status(400).json({
+                success: false,
+                message: '닉네임은 한글, 영문, 숫자만 가능하며 2-10자리 사이여야 합니다.',
+            });
+        }
+
+        //비밀번호 유효성 검사 함수
+        const validPassword = newPassword => {
+            const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,20}$/i;
+            return passwordRegex.test(newPassword);
+        };
+        if (!validPassword(password)) {
+            return res.status(400).json({
+                success: false,
+                message: '비밀번호는 8-20자 영문, 숫자 조합으로 이루어져야 합니다.',
+            });
+        }
+
+        const emailValidationRegex = new RegExp('[a-z0-9._]+@[a-z]+.[a-z]{2,3}');
+        const isValidEmail = emailValidationRegex.test(email);
+        if (!isValidEmail) {
+            return res.status(400).json({
+                success: false,
+                message: '이메일 형식이 올바르지 않습니다.',
+            });
+        }
+
+        const existUser = await Users.findOne({ where: { email } });
+        console.log(existUser);
+        if (existUser) {
+            return res.status(400).json({
+                success: false,
+                message: '이미 가입된 이메일입니다.',
+            });
+        }
+
+        const hashedPassword = bcrypt.hashSync(password, 13);
+
+        const newUser = (await Users.create({ nickname, email, password: hashedPassword })).toJSON();
+        delete newUser.password;
+
+        return res.status(201).json({
+            success: true,
+            message: '회원가입에 성공했습니다.',
+            data: newUser,
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            message: '알 수 없는 오류가 발생하였습니다. 관리자에게 문의하세요.',
+        });
+    }
+});
 
 export default authRouter;
