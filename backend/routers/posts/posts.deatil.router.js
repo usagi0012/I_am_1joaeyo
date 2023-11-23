@@ -4,7 +4,7 @@ import Response from '../../util/response/response.js';
 import moment from 'moment-timezone';
 
 const postsRouter = express.Router();
-const { Posts, Users, Likes } = db;
+const { Posts, Users, sequelize } = db;
 
 /**
  * 게시글 조회 API
