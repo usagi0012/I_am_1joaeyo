@@ -1,18 +1,16 @@
 import express from 'express';
 import db from '../../models/index.cjs';
-
+import bcrypt from 'bcrypt';
+import dotenv from 'dotenv';
+import { needSignin } from '../../middleware/auth.middleware.js';
+dotenv.config();
 const usersRouter = express.Router();
 const { Users } = db;
 
-// 미들웨어 만들면 가져오기
-// import authMiddleware from '../../middleware/auth.middleware';
-
 //회원 정보 조회 API
-usersRouter.get('/members', async (req, res) => {
+usersRouter.get('/members', needSignin, async (req, res) => {
     try {
-        //미들웨어 가져오면 주석해제
-        // const id = res.locals.user;
-        const id = 1;
+        const id = res.locals.user;
         const data = await Users.findOne({
             attributes: ['nickname', 'description'],
             where: { id },
@@ -54,13 +52,10 @@ usersRouter.get('/members/:userId', async (req, res) => {
 });
 
 //회원 정보 수정 API - 프로필 수정
-usersRouter.patch('/members', async (req, res) => {
+usersRouter.patch('/members', needSignin, async (req, res) => {
     try {
         const { nickname, description, currentPassword, newPassword, confirmNewPassword } = req.body;
-
-        //미들웨어 가져오면 주석해제
-        // const id = res.locals.user;
-        const id = 1;
+        const id = res.locals.user;
 
         //닉네임 형식이 올바르지 않은 경우
         //닉네임 유효성 검사 함수
@@ -74,8 +69,7 @@ usersRouter.patch('/members', async (req, res) => {
                 message: '닉네임은 한글, 영문, 숫자만 가능하며 2-10자리 사이여야 합니다.',
             });
         }
-
-        //이부분 회원가입 구현 하시면 hash 부분 보고 수정할게요 암호화 없이 기본으로 해놨어요
+        let newHashedPassword;
         //비밀번호 수정 부분(셋 중 하나라도 채워져있으면 비밀번호 변경 실행)
         if (currentPassword || newPassword || confirmNewPassword) {
             //셋 중 하나라도 없으면 오류
@@ -88,7 +82,10 @@ usersRouter.patch('/members', async (req, res) => {
 
             //이전 비밀번호가 맞지 않는 경우
             const { password } = await Users.findOne({ attributes: ['password'], where: { id } });
-            if (currentPassword !== password) {
+            const passwordCorrect = await bcrypt.compare(currentPassword, password);
+            console.log(passwordCorrect);
+
+            if (!passwordCorrect) {
                 return res.status(400).json({
                     success: false,
                     message: '현재 비밀번호가 일치하지 않습니다.',
@@ -114,13 +111,14 @@ usersRouter.patch('/members', async (req, res) => {
                     message: '비밀번호를 다시 확인해주세요.',
                 });
             }
+            newHashedPassword = bcrypt.hashSync(newPassword, 13);
         }
         //수정 성공
         await Users.update(
             {
                 ...(nickname && { nickname }),
                 ...(description && { description }),
-                password: newPassword,
+                password: newHashedPassword,
             },
             { where: { id } },
         );
@@ -138,11 +136,9 @@ usersRouter.patch('/members', async (req, res) => {
 });
 
 //회원 탈퇴 API
-usersRouter.delete('/members', async (req, res) => {
+usersRouter.delete('/members', needSignin, async (req, res) => {
     try {
-        //미들웨어 가져오면 주석해제
-        // const id = res.locals.user;
-        const id = 3;
+        const id = res.locals.user;
         await Users.destroy({ where: { id } });
         res.status(200).json({
             success: true,

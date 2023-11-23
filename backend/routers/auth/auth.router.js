@@ -2,6 +2,8 @@ import { Router } from 'express';
 import bcrypt from 'bcrypt';
 import db from '../../models/index.cjs';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+dotenv.config();
 const authRouter = Router();
 const { Users } = db;
 
@@ -16,7 +18,7 @@ authRouter.post('/signup', async (req, res) => {
         if (!nickname || !email || !password) {
             return res.status(400).json({
                 success: false,
-                message: '닉네임을 입력해주세요.',
+                message: '정보를 모두 입력해주세요.',
             });
         }
 
@@ -127,10 +129,10 @@ authRouter.post('/signin', async (req, res) => {
     }
 
     try {
-        const accessToken = jwt.sign({ userId: user.id }, 'rq=khGP3fcOT{LV', {
+        const accessToken = jwt.sign({ userId: user.id }, process.env.JWT_KEY, {
             expiresIn: '1h',
         });
-        return res.status(200).json({
+        return res.status(200).header('authorization', `Bearer ${accessToken}`).json({
             success: true,
             message: '로그인에 성공했습니다.',
             data: { accessToken },

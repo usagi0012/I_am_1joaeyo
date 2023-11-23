@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken';
 import db from '../models/index.cjs';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const { Users } = db;
 
@@ -31,10 +33,10 @@ export const needSignin = async (req, res, next) => {
             });
         }
 
-        const decodedPayload = jwt.verify(accessToken, 'rq=khGP3fcOT{LV');
+        const decodedPayload = jwt.verify(accessToken, process.env.JWT_KEY);
         const { userId } = decodedPayload;
 
-        const user = await Users.findByPK(userId).toJSON();
+        const user = await Users.findOne({ where: { id: userId } });
         //userId가 일치하지 않는경우
         if (!user) {
             res.status(400).json({
@@ -42,9 +44,7 @@ export const needSignin = async (req, res, next) => {
                 message: '사용자가 존재하지 않습니다.',
             });
         }
-
-        delete user.password;
-        res.locals.user = user;
+        res.locals.user = userId;
         next();
     } catch (error) {
         console.log(error.message);
