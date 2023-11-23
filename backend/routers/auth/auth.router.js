@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import bcrypt from 'bcrypt';
 import db from '../../models/index.cjs';
+import jwt from 'jsonwebtoken';
 const authRouter = Router();
 const { Users } = db;
 
@@ -67,7 +68,6 @@ authRouter.post('/signup', async (req, res) => {
         }
 
         const existUser = await Users.findOne({ where: { email } });
-        console.log(existUser);
         if (existUser) {
             return res.status(400).json({
                 success: false,
@@ -94,4 +94,53 @@ authRouter.post('/signup', async (req, res) => {
     }
 });
 
+//로그인 기능
+authRouter.post('/signin', async (req, res) => {
+    const { email, password } = req.body;
+    if (!email) {
+        res.status(400).json({
+            success: false,
+            message: '이메일을 입력해주세요',
+        });
+    }
+
+    if (!password) {
+        res.status(400).json({
+            success: false,
+            message: '비밀번호를 입력해주세요',
+        });
+    }
+    const user = (await Users.findOne({ where: { email } }))?.toJSON();
+    if (!user) {
+        return res.status(401).json({
+            success: false,
+            message: '유저 정보가 없습니다',
+        });
+    }
+    const hashedPassword = user?.password;
+    const ispasswordMatched = bcrypt.compareSync(password, hashedPassword);
+    if (!ispasswordMatched) {
+        return res.status(401).json({
+            success: false,
+            message: '비밀번호가 틀립니다.',
+        });
+    }
+    
+    try {
+        const accessToken = jwt.sign({ userId: user.id }, 'rq=khGP3fcOT{LV', {
+            expiresIn: '1h',
+        });
+        return res.status(200).json({
+            success: true,
+            message: '로그인에 성공했습니다.',
+            data: { accessToken },
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            message: '알 수 없는 오류가 발생하였습니다. 관리자에게 문의하세요.',
+        });
+    }
+});
 export default authRouter;
