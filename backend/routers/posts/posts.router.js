@@ -75,9 +75,10 @@ postsRouter.post('/testCreate', async (req, res) => {
 });
 
 // 게시글 작성 API
-postsRouter.post('', async (req, res) => {
+postsRouter.post('/', async (req, res) => {
     try {
         // const { id: userId } = res.locals.user
+        const userId = 1;
         const { title, content, image } = req.body;
 
         if (!title || !content || !image) {
@@ -104,9 +105,10 @@ postsRouter.post('', async (req, res) => {
 });
 
 // 게시글 수정 API
-postsRouter.put('/posts/:postId', async (req, res) => {
+postsRouter.put('/:postId', async (req, res) => {
     try {
         // const { id: userId } = res.locals.user
+        const userId = 1;
         const { postId } = req.params;
         const { title, content, image } = req.body;
 
@@ -157,9 +159,10 @@ postsRouter.put('/posts/:postId', async (req, res) => {
 });
 
 // 게시글 삭제 API
-postsRouter.delete('/posts/:postId', async (req, res) => {
+postsRouter.delete('/:postId', async (req, res) => {
     try {
         // const { id: userId } = res.locals.user
+        const userId = 1;
         const { postId } = req.params;
 
         const post = await Posts.findByPk(postId);
