@@ -1,25 +1,18 @@
 import { Router } from 'express';
 import db from '../../../models/index.cjs';
-
+import { needSignin } from '../../../middleware/auth.middleware.js';
 const likeRouter = Router();
 const { Likes } = db;
 
-// 미들웨어 만들면 가져오기
-// import authMiddleware from '../../../middleware/auth.middleware';
-
 //좋아요 생성 API
-likeRouter.patch('/:postId/like', async (req, res) => {
+likeRouter.patch('/:postId/like', needSignin, async (req, res) => {
     try {
         const { postId } = req.params;
-
-        //미들웨어 가져오면 주석해제
-        // const userId = res.locals.user;
-        const userId = 1;
+        const userId = res.locals.user;
 
         const likedPost = await Likes.findOne({
             where: { postId, userId },
         });
-        console.log(likedPost);
 
         //좋아요를 눌렀던 기록이 없는 경우 좋아요 생성
         if (!likedPost) {
