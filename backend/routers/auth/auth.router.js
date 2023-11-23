@@ -125,7 +125,7 @@ authRouter.post('/signin', async (req, res) => {
             message: '비밀번호가 틀립니다.',
         });
     }
-    
+
     try {
         const accessToken = jwt.sign({ userId: user.id }, 'rq=khGP3fcOT{LV', {
             expiresIn: '1h',
