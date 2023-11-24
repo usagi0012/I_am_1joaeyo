@@ -66,10 +66,10 @@ postsRouter.put('/:postId', needSignin, async (req, res) => {
         }
 
         if (title) {
-            if (title.length > 40) {
+            if (title.length > 50) {
                 return res.status(400).json({
                     success: false,
-                    message: '제목은 공백포함 40자 이하로 작성해주세요.',
+                    message: '제목은 공백포함 50자 이하로 작성해주세요.',
                 });
             }
         }

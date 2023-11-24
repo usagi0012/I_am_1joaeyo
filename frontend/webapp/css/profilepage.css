@@ -1,0 +1,66 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #444a56;
+    min-height: 100vh;
+}
+
+/* 상단바 부분 */
+.headWrap {
+    background-color: #28292c;
+    display: grid;
+    grid-template-areas: 'logo . icon';
+    grid-template-columns: 1.5fr 5fr 1fr;
+    height: 80px;
+    width: 100%;
+    position: fixed;
+}
+
+.logo {
+    grid-area: logo;
+    text-align: left;
+    padding: 13px;
+}
+
+.iconBox {
+    grid-area: icon;
+}
+
+#addPost,
+#user {
+    width: 50px;
+    height: 50px;
+    border: none;
+    background-color: #28292c;
+    font-size: 1.5rem;
+}
+
+#addPost {
+    position: absolute;
+    top: 15px;
+    right: 70px;
+}
+
+#user {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+/* 아이콘 전체설정 */
+#searchBox i,
+#addPost i,
+#user i {
+    color: white;
+}
+
+/* 커서 포인터 설정 */
+#moovieLogo,
+#addPost,
+#user {
+    cursor: pointer;
+}
