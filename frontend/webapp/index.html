@@ -13,6 +13,7 @@
         />
         <link href="https://webfontworld.github.io/gmarket/GmarketSans.css" rel="stylesheet" />
         <link rel="stylesheet" href="css/index.css" />
+        <script src="./js/index.header.js" defer></script>
     </head>
 
     <body>
@@ -33,56 +34,7 @@
             <div class="bodyWrap">
                 <div class="bestContainer">
                     <h2>Best</h2>
-                    <div class="postCardContainer">
-                        <div class="postCard">
-                            <div class="imageBox">
-                                <img class="postImg" src="../resources/testImg.png" />
-                            </div>
-                            <div class="contentBox">
-                                <h3 class="postTitle">TITLE</h3>
-                                <div class="likes">
-                                    38
-                                    <i class="fas fa-solid fa-heart"></i>
-                                </div>
-                                <div class="cardFoot">
-                                    <h5 class="postWriter">TESTUSER</h5>
-                                    <h5 class="postDate">TESTDATE</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="postCard">
-                            <div class="imageBox">
-                                <img class="postImg" src="../resources/testImg.png" />
-                            </div>
-                            <div class="contentBox">
-                                <h3 class="postTitle">TITLE</h3>
-                                <div class="likes">
-                                    38
-                                    <i class="fas fa-solid fa-heart"></i>
-                                </div>
-                                <div class="cardFoot">
-                                    <h5 class="postWriter">TESTUSER</h5>
-                                    <h5 class="postDate">TESTDATE</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="postCard">
-                            <div class="imageBox">
-                                <img class="postImg" src="../resources/testImg.png" />
-                            </div>
-                            <div class="contentBox">
-                                <h3 class="postTitle">TITLE</h3>
-                                <div class="likes">
-                                    38
-                                    <i class="fas fa-solid fa-heart"></i>
-                                </div>
-                                <div class="cardFoot">
-                                    <h5 class="postWriter">TESTUSER</h5>
-                                    <h5 class="postDate">TESTDATE</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="postCardContainer" id="bestCardContainer"></div>
                 </div>
                 <div class="mainContainer">
                     <h2>ALL</h2>
@@ -99,56 +51,7 @@
                             <option value="like">인기순</option>
                         </select>
                     </div>
-                    <div class="postCardContainer">
-                        <div class="postCard">
-                            <div class="imageBox">
-                                <img class="postImg" src="../resources/testImg.png" />
-                            </div>
-                            <div class="contentBox">
-                                <h3 class="postTitle">TITLE</h3>
-                                <div class="likes">
-                                    38
-                                    <i class="fas fa-solid fa-heart"></i>
-                                </div>
-                                <div class="cardFoot">
-                                    <h5 class="postWriter">TESTUSER</h5>
-                                    <h5 class="postDate">TESTDATE</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="postCard">
-                            <div class="imageBox">
-                                <img class="postImg" src="../resources/testImg.png" />
-                            </div>
-                            <div class="contentBox">
-                                <h3 class="postTitle">TITLE</h3>
-                                <div class="likes">
-                                    38
-                                    <i class="fas fa-solid fa-heart"></i>
-                                </div>
-                                <div class="cardFoot">
-                                    <h5 class="postWriter">TESTUSER</h5>
-                                    <h5 class="postDate">TESTDATE</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="postCard">
-                            <div class="imageBox">
-                                <img class="postImg" src="../resources/testImg.png" />
-                            </div>
-                            <div class="contentBox">
-                                <h3 class="postTitle">TITLE</h3>
-                                <div class="likes">
-                                    38
-                                    <i class="fas fa-solid fa-heart"></i>
-                                </div>
-                                <div class="cardFoot">
-                                    <h5 class="postWriter">TESTUSER</h5>
-                                    <h5 class="postDate">TESTDATE</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="postCardContainer" id="postCardContainer"></div>
                 </div>
             </div>
         </div>
