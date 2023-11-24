@@ -1,13 +1,12 @@
 html {
     height: 100%;
 }
-
 .headWrap {
     background-color: #28292c;
     display: grid;
     align-items: center;
     justify-content: center;
-    height: 150px;
+    height: 100px;
     width: 100%;
     position: absolute;
 }
@@ -114,6 +113,17 @@ body {
     width: 100%;
     height: 2px;
     background: linear-gradient(90deg, transparent, #feba69);
+    animation: btn-anim1 1s linear infinite;
+}
+
+@keyframes btn-anim1 {
+    0% {
+        left: -100%;
+    }
+    50%,
+    100% {
+        left: 100%;
+    }
 }
 
 .login-box a span:nth-child(2) {
@@ -122,6 +132,18 @@ body {
     width: 2px;
     height: 100%;
     background: linear-gradient(180deg, transparent, #feba69);
+    animation: btn-anim2 1s linear infinite;
+    animation-delay: 0.25s;
+}
+
+@keyframes btn-anim2 {
+    0% {
+        top: -100%;
+    }
+    50%,
+    100% {
+        top: 100%;
+    }
 }
 
 .login-box a span:nth-child(3) {
@@ -130,6 +152,8 @@ body {
     width: 100%;
     height: 2px;
     background: linear-gradient(270deg, transparent, #feba69);
+    animation: btn-anim3 1s linear infinite;
+    animation-delay: 0.5s;
 }
 
 @keyframes btn-anim3 {
@@ -148,6 +172,8 @@ body {
     width: 2px;
     height: 100%;
     background: linear-gradient(360deg, transparent, #feba69);
+    animation: btn-anim4 1s linear infinite;
+    animation-delay: 0.75s;
 }
 
 @keyframes btn-anim4 {
