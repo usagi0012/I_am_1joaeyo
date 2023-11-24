@@ -7,7 +7,7 @@ html {
     display: grid;
     align-items: center;
     justify-content: center;
-    height: 100px;
+    height: 108px;
     width: 100%;
     position: absolute;
 }
@@ -30,7 +30,7 @@ body {
 
 .signup-box {
     position: absolute;
-    top: 54%;
+    top: 52%;
     left: 50%;
     width: 400px;
     padding: 40px;
