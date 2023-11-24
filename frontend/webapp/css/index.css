@@ -106,7 +106,7 @@ body {
     height: 10rem;
     display: grid;
     grid-template-areas:
-        'title title like'
+        'title title title'
         'foot foot foot';
     grid-template-columns: 3fr 3fr 1.5fr;
     grid-template-rows: 2fr 1fr;
@@ -116,16 +116,37 @@ body {
 .postTitle {
     grid-area: title;
     text-align: center;
-    padding-top: 5px;
+    padding: 13px 10px;
     font-weight: 500;
     font-size: 1.5rem;
     color: white;
 }
 
+.cardFoot {
+    grid-area: foot;
+    display: grid;
+    grid-template-areas:
+        'name likes'
+        'name date';
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    background-color: #2a2a3d;
+}
+
+.postWriter {
+    grid-area: name;
+    padding: 20px 5px;
+    text-align: start;
+    font-weight: 400;
+    font-size: 1rem;
+    color: #feba69;
+}
+
 .likes {
-    grid-area: like;
-    text-align: center;
+    grid-area: likes;
+    text-align: end;
     padding-top: 10px;
+    padding-right: 5px;
     color: white;
 }
 
@@ -133,27 +154,13 @@ body {
     color: red;
 }
 
-.cardFoot {
-    grid-area: foot;
-    display: grid;
-    grid-template-areas: 'name date';
-    grid-template-columns: repeat(2, 1fr);
-    background-color: #2a2a3d;
-}
-
-.postWriter {
-    grid-area: name;
-    text-align: start;
-    font-weight: 400;
-    font-size: 1rem;
-    color: #feba69;
-}
-
 .postDate {
     grid-area: date;
     text-align: end;
     font-weight: 400;
     font-size: 1rem;
+    padding-top: 5px;
+    padding-right: 5px;
     color: #dfdfe0;
 }
 
