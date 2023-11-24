@@ -33,7 +33,7 @@ function makePostList(data, cardContainer) {
         cardContainer.innerHTML += `
           <div class="postCard">
             <div class="imageBox">
-              <img class="postImg" src="../resources/testImg.png" />
+              <img class="postImg" src="${e.image}" />
             </div>
             <div class="contentBox">
               <h3 class="postTitle">${e.title}</h3>
