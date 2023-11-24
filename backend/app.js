@@ -2,6 +2,7 @@ import express from 'express';
 import db from './models/index.cjs';
 import apiRouter from './routers/index.js';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 const port = 3050;
@@ -16,7 +17,7 @@ try {
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded());
-
+app.use(cookieParser());
 app.use(apiRouter);
 
 app.listen(port, () => {
