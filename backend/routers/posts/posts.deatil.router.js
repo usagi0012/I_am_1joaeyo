@@ -4,19 +4,41 @@ import Response from '../../util/response/response.js';
 import moment from 'moment-timezone';
 
 const postsRouter = express.Router();
-const { Posts, Users, sequelize } = db;
+const { Posts, Users, Likes } = db;
 
 /**
  * 게시글 조회 API
  */
 postsRouter.get('/', async (req, res) => {
     const posts = await Posts.findAll({
-        attributes: ['id', 'title', 'content', 'userId', 'createdAt'],
+        attributes: ['id', 'title', 'userId', 'createdAt'],
         include: [
             {
                 model: Users,
                 as: 'user',
                 attributes: ['nickname'],
+            },
+            {
+                model: Likes,
+                as: 'likes',
+                attributes: ['userId'],
+            },
+        ],
+        order: [['createdAt', 'DESC']],
+    });
+
+    const bestPosts = await Posts.findAll({
+        attributes: ['id', 'title', 'userId', 'createdAt'],
+        include: [
+            {
+                model: Users,
+                as: 'user',
+                attributes: ['nickname'],
+            },
+            {
+                model: Likes,
+                as: 'likes',
+                attributes: ['userId'],
             },
         ],
     });
@@ -25,11 +47,24 @@ postsRouter.get('/', async (req, res) => {
         return ele.toJSON();
     });
 
+    const resultBestPosts = bestPosts.map(ele => {
+        return ele.toJSON();
+    });
+
     resultPosts.forEach(ele => {
         ele.createdAt = moment(ele.createdAt).format('YYYY-MM-DD hh:mm:ss');
     });
 
-    res.status(200).json(Response.successResult('게시글 조회 성공', resultPosts));
+    resultPosts.sort((a, b) => (new Date(a.createdAt) < new Date(b.createdAt) ? 1 : -1));
+
+    resultBestPosts.sort((a, b) => (a.likes.length < b.likes.length ? 1 : -1));
+
+    return res.status(200).json({
+        success: true,
+        messege: '게시글 조회 성공',
+        data: resultPosts,
+        bestdata: resultBestPosts,
+    });
 });
 
 /**
@@ -48,6 +83,11 @@ postsRouter.get('/:postId', async (req, res) => {
                 as: 'user',
                 attributes: ['nickname'],
             },
+            {
+                model: Likes,
+                as: 'likes',
+                attributes: ['userId'],
+            },
         ],
     });
 
@@ -58,7 +98,7 @@ postsRouter.get('/:postId', async (req, res) => {
     const successPost = resultPost.toJSON();
     successPost.createdAt = moment(resultPost.createdAt).format('YYYY-MM-DD hh:mm:ss');
 
-    res.status(200).json(Response.successResult('게시글 상세 조회 성공', successPost));
+    return res.status(200).json(Response.successResult('게시글 상세 조회 성공', successPost));
 });
 
 /**
