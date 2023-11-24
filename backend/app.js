@@ -12,9 +12,8 @@ try {
 } catch (error) {
     console.error('Unable to connect to the database:', error);
 }
-
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
 app.use(express.urlencoded());
 
 app.use(apiRouter);
