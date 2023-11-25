@@ -89,7 +89,7 @@ body {
         'image title title'
         'image foot foot';
     grid-template-columns: 1fr 0.5fr 0.5fr;
-    grid-template-rows: 3fr 1fr;
+    grid-template-rows: 4fr 1fr;
 }
 
 .imgBox {
@@ -129,28 +129,28 @@ body {
 
 .nameBox {
     text-align: center;
-    margin: 45px 3px;
+    margin: 30px 3px;
     padding: 20px 0px;
 }
 
 .dateBox {
     text-align: center;
-    margin: 45px 20px;
+    margin: 30px 20px;
     padding: 20px 10px;
 }
 
 .likeBox {
     text-align: center;
-    margin: 45px 15px;
+    margin: 30px 15px;
     padding: 20px 10px;
 }
 
 .contentCotainer {
-    margin: 70px 2rem 0px;
+    margin: 70px 2rem 20px;
     width: 80rem;
     padding: 0px 50px;
     font-family: 'GmarketSans';
     font-size: 1.2rem;
     color: #fff;
-    line-height: 150%;
+    line-height: 170%;
 }
