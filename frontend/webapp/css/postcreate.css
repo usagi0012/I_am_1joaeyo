@@ -1,0 +1,165 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #444a56;
+    min-height: 100vh;
+}
+
+/* 상단바 부분 */
+.headWrap {
+    background-color: #28292c;
+    display: grid;
+    grid-template-areas: 'logo . icon';
+    grid-template-columns: 1.5fr 5fr 1fr;
+    height: 80px;
+    width: 100%;
+    position: fixed;
+}
+
+.logo {
+    grid-area: logo;
+    text-align: left;
+    padding: 13px;
+}
+
+.iconBox {
+    grid-area: icon;
+}
+
+#addPost,
+#user {
+    width: 50px;
+    height: 50px;
+    border: none;
+    background-color: #28292c;
+    font-size: 1.5rem;
+}
+
+#addPost {
+    position: absolute;
+    top: 15px;
+    right: 70px;
+}
+
+#user {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+/* 전체 컨테이너 */
+.bodyWrap {
+    padding-top: 100px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* 아이콘 전체설정 */
+#searchBox i,
+#addPost i,
+#user i {
+    color: white;
+}
+
+/* 커서 포인터 설정 */
+#moovieLogo,
+#searchBtn,
+#addPost,
+#user {
+    cursor: pointer;
+}
+
+/* 컨테이너 제목 */
+.Container > h2 {
+    font-family: 'GmarketSans';
+    font-weight: 500;
+    margin-top: 3px;
+    margin-left: 5px;
+    color: #feba69;
+}
+
+/* 글 작성 박스 */
+#titleBox {
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#titleBox input[type='text'] {
+    flex-grow: 1;
+    border: 1px solid #dfdfe0;
+    border-radius: 4px;
+    height: 38px;
+    box-sizing: border-box;
+    padding: 0 10px;
+    width: calc(100% - 40px);
+    color: #fff;
+    background-color: #2a2a3d;
+    font-family: 'GmarketSans';
+    font-size: 0.8rem;
+}
+
+/* 내용 작성 박스 */
+#contentBox {
+    padding-right: 10px;
+    padding-bottom: 10px;
+}
+
+#contentBox textarea {
+    flex-grow: 1;
+    border: 1px solid #dfdfe0;
+    border-radius: 4px;
+    height: 400px;
+    box-sizing: border-box;
+    padding: 10px;
+    width: calc(100% - 40px);
+    color: #fff;
+    background-color: #2a2a3d;
+    font-family: 'GmarketSans';
+    font-size: 0.8rem;
+}
+
+.btnDone {
+    position: static;
+    text-align: right;
+    margin-right: 40px;
+    padding: 25px 10px 10px 10px;
+}
+
+.btnDone a {
+    background-color: #feba69;
+    padding: 10px 50px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #ffffff;
+    border-radius: 4px;
+}
+
+.btn-upload {
+    flex-grow: 1;
+    border: 1px solid #dfdfe0;
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding: 10px;
+    width: calc(100% - 50px);
+    color: #fff;
+    background-color: #2a2a3d;
+    font-family: 'GmarketSans';
+    font-size: 0.8rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &:hover {
+        background: rgb(77, 77, 77);
+        color: #fff;
+    }
+}
+
+#file {
+    display: none;
+}
