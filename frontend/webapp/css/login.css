@@ -19,6 +19,7 @@ html {
     margin: 0 auto;
     width: 120px;
     height: auto;
+    cursor: pointer;
 }
 body {
     margin: 0;
@@ -83,8 +84,8 @@ body {
 
 .login-box form a {
     position: relative;
-    display: inline-block;
-    padding: 10px 20px;
+    display: inline-flex;
+    /* padding: 10px 20px; */
     color: #feba69;
     font-size: 16px;
     text-decoration: none;
@@ -93,28 +94,32 @@ body {
     transition: 0.5s;
     margin-top: 40px;
     letter-spacing: 4px;
-}
-
-.login-box .signup-btn {
-    position: relative;
-    display: inline-block;
-    padding: 10px 20px;
-    color: #feba69;
-    font-size: 16px;
-    text-decoration: none;
-    text-transform: uppercase;
-    overflow: hidden;
-    transition: 0.5s;
-    margin-top: 40px;
-    letter-spacing: 4px;
-    margin-left: 60px;
+    cursor: pointer;
 }
 
 .login-box a:hover {
     background: #feba69;
     color: #fff;
     border-radius: 5px;
-    box-shadow: 0 0 5px #feba69, 0 0 25px #feba69, 0 0 50px #feba69, 0 0 100px #feba69;
+    box-shadow:
+        0 0 5px #feba69,
+        0 0 25px #feba69,
+        0 0 50px #feba69,
+        0 0 100px #feba69;
+}
+
+.btn {
+    background: none;
+    color: #feba69;
+    border: none;
+    font-size: 16px;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    cursor: pointer;
+    padding: 10px 22px;
+    width: 100%;
+    height: 100%;
 }
 
 .login-box a span {

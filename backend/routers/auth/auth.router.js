@@ -14,7 +14,6 @@ authRouter.get('/signup', (req, res) => {
 authRouter.post('/signup', async (req, res) => {
     try {
         const { nickname, email, password, passwordConfirm } = req.body;
-        console.log(password, '   ', passwordConfirm);
         if (!nickname || !email || !password) {
             return res.status(400).json({
                 success: false,
@@ -99,44 +98,48 @@ authRouter.post('/signup', async (req, res) => {
 //로그인 기능
 authRouter.post('/signin', async (req, res) => {
     const { email, password } = req.body;
-    if (!email) {
-        res.status(400).json({
-            success: false,
-            message: '이메일을 입력해주세요',
-        });
+    console.log(email);
+
+    const emailValidationRegex = new RegExp('[a-z0-9._]+@[a-z]+.[a-z]{2,3}');
+    const isValidEmail = emailValidationRegex.test(email);
+    if (!isValidEmail) {
+        return res.status(400)
+            .send(`<script type="text/javascript">alert("이메일 형식이 올바르지 않습니다.");document.location.href="http://127.0.0.1:5500/frontend/webapp/login.html?";
+        </script>`);
     }
 
     if (!password) {
-        res.status(400).json({
-            success: false,
-            message: '비밀번호를 입력해주세요',
-        });
+        return res.status(400)
+            .send(`<script type="text/javascript">alert("비밀번호를 입력해주세요.");document.location.href="http://127.0.0.1:5500/frontend/webapp/login.html?";
+        </script>`);
     }
+
     const user = (await Users.findOne({ where: { email } }))?.toJSON();
     if (!user) {
-        return res.status(401).json({
-            success: false,
-            message: '유저 정보가 없습니다',
-        });
+        return res.status(401)
+            .send(`<script type="text/javascript">alert("유저 정보가 없습니다. 회원가입 후 이용해주세요.");document.location.href="http://127.0.0.1:5500/frontend/webapp/signup.html?";
+        </script>`);
     }
+
     const hashedPassword = user?.password;
     const ispasswordMatched = bcrypt.compareSync(password, hashedPassword);
     if (!ispasswordMatched) {
-        return res.status(401).json({
-            success: false,
-            message: '비밀번호가 틀립니다.',
-        });
+        return res.status(401)
+            .send(`<script type="text/javascript">alert("비밀번호가 틀립니다.");document.location.href="http://127.0.0.1:5500/frontend/webapp/login.html?";
+        </script>`);
     }
 
     try {
         const accessToken = jwt.sign({ userId: user.id }, process.env.JWT_KEY, {
             expiresIn: '1h',
         });
-        return res.status(200).header('authorization', `Bearer ${accessToken}`).json({
-            success: true,
-            message: '로그인에 성공했습니다.',
-            data: { accessToken },
-        });
+        return res
+            .status(200)
+            .header('authorization', `Bearer ${accessToken}`)
+            .send(
+                `<script type="text/javascript">alert("로그인에 성공했습니다.");document.location.href="http://127.0.0.1:5500/frontend/webapp/index.html";
+            </script>`,
+            );
     } catch (error) {
         console.log(error);
         return res.status(500).json({
