@@ -30,6 +30,7 @@ function loadPost(postId) {
 //글 내용 불러오기
 function loadContent(e) {
     content.innerHTML = '';
+
     content.innerHTML += `
     <div class="dataContainer">
     <div class="imgBox">
@@ -41,7 +42,7 @@ function loadContent(e) {
         <div class="dateBox">${e.createdAt.slice(0, 10)}</div>
         <div class="likeBox">
         ${e.likes.length}
-            <i class="fas fa-solid fa-heart"></i>
+            <i style="color:red" type="button" onclick="patchLike(${e.id})" class="fas fa-solid fa-heart"></i>
         </div>
     </div>
 </div>
@@ -63,8 +64,7 @@ function loadComment(postId) {
         .then(res => {
             commentContainer.innerHTML = '';
             res.data.forEach(e => {
-                if (e.userId)
-                    commentContainer.innerHTML += `<div class="comment">
+                commentContainer.innerHTML += `<div class="comment">
                 <div class="commentNickname" onclick="toProfilepage(${e.userId})" >${e.users.nickname}</div>
                 <div class="commentContent">${e.content}</div>
                 <button type="button" class="deleteIcon" onclick="deleteComment(${postId},${e.id})">
@@ -127,8 +127,29 @@ function deleteComment(postId, commentId) {
         .catch(err => alert('데이터 정보를 불러오지 못했습니다. 에러 : ' + err));
 }
 
+//작성자 클릭하면 해당 회원페이지로 이동
 function toProfilepage(userId) {
     location.href = `http://127.0.0.1:5500/frontend/webapp/profilepage.html?id=${userId}`;
+}
+
+//좋아요 생성 및 삭제
+function patchLike(postId) {
+    if (!token) {
+        return alert('로그인 후 이용 가능한 기능입니다.');
+    }
+    fetch(`http://localhost:3050/posts/${postId}/like`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            authorization: token,
+        },
+    })
+        .then(res => res.json())
+        .then(res => {
+            alert(res.message);
+            location.reload();
+        })
+        .catch(err => alert('데이터 정보를 불러오지 못했습니다. 에러 : ' + err));
 }
 
 //로그인 상태에 따른 회원 아이콘 클릭시 이동 함수
