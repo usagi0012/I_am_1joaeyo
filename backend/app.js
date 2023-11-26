@@ -4,6 +4,7 @@ import apiRouter from './routers/index.js';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
+import ejs from 'ejs';
 
 const app = express();
 const port = 3050;
@@ -14,6 +15,8 @@ try {
 } catch (error) {
     console.error('Unable to connect to the database:', error);
 }
+
+app.set('view engine', 'ejs');
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded());

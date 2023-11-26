@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 import { needSignin } from '../../middleware/auth.middleware.js';
 dotenv.config();
 const usersRouter = express.Router();
-const { Users } = db;
+const { Users, Posts } = db;
 
 //회원 정보 조회 API
 usersRouter.get('/members', needSignin, async (req, res) => {
@@ -36,7 +36,22 @@ usersRouter.get('/members/:userId', async (req, res) => {
         const data = await Users.findOne({
             attributes: ['nickname', 'description'],
             where: { id: userId },
+            include: [
+                {
+                    model: Posts,
+                    as: 'posts',
+                    attributes: ['title', 'id'],
+                },
+            ],
         });
+
+        if (!data) {
+            return res.status(400).json({
+                success: false,
+                message: '존재하지 않는 회원입니다.',
+            });
+        }
+
         res.status(200).json({
             success: true,
             message: '회원 상세조회 성공',

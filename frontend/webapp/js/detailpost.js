@@ -4,8 +4,12 @@ function toHome() {
 
 const content = document.getElementById('content');
 const commentContainer = document.getElementById('commentContainer');
+const commentWriteNickname = document.getElementById('commentWriteNickname');
 
-window.onload = loadPost(24);
+const url = new URLSearchParams(window.location.search);
+const postnum = url.get('id');
+
+window.onload = loadPost(postnum);
 
 function loadPost(postId) {
     fetch(`http://localhost:3050/posts/${postId}`, {
@@ -15,6 +19,7 @@ function loadPost(postId) {
         },
     })
         .then(res => res.json())
+        // .then(res => console.log(res.data))
         .then(res => {
             loadContent(res.data);
         })
@@ -32,7 +37,7 @@ function loadContent(e) {
     </div>
     <div class="titleBox">${e.title}</div>
     <div class="foot">
-        <div class="nameBox">${e.user.nickname}</div>
+        <div class="nameBox" onclick="toProfilepage(${e.userId})">${e.user.nickname}</div>
         <div class="dateBox">${e.createdAt.slice(0, 10)}</div>
         <div class="likeBox">
         ${e.likes.length}
@@ -60,7 +65,7 @@ function loadComment(postId) {
             res.data.forEach(e => {
                 if (e.userId)
                     commentContainer.innerHTML += `<div class="comment">
-                <div class="commentNickname">${e.users.nickname}</div>
+                <div class="commentNickname" onclick="toProfilepage(${e.userId})" >${e.users.nickname}</div>
                 <div class="commentContent">${e.content}</div>
                 <button type="button" class="editIcon">
                     <i class="fas fa-solid fa-pen-to-square"></i>
@@ -72,4 +77,31 @@ function loadComment(postId) {
             });
         })
         .catch(err => alert('데이터 정보를 불러오지 못했습니다. 에러 : ' + err));
+}
+
+const commentEditIcon = document.getElementById('commentEditIcon');
+commentEditIcon.addEventListener('click', function (e) {
+    e.preventDefault;
+    createComment(postnum);
+});
+
+function createComment(postId) {
+    const commentText = document.getElementById('commentWriteContent').value;
+    console.log(commentText);
+    fetch(`http://localhost:3050/posts/${postId}/comments`, {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+        },
+        body: JSON.stringify({
+            content: commentText,
+        }),
+    })
+        .then(res => res.json())
+        .then(res => console.log(res))
+        .catch(err => alert('데이터 정보를 불러오지 못했습니다. 에러 : ' + err));
+}
+
+function toProfilepage(userId) {
+    location.href = `http://127.0.0.1:5500/frontend/webapp/profilepage.html?id=${userId}`;
 }

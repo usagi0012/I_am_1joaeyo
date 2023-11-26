@@ -240,11 +240,8 @@ body {
 
 #commentWrite {
     display: grid;
-    grid-template-areas:
-        'commentWriteNickname commentEditIcon'
-        'commentWriteContent commentEditIcon';
+    grid-template-areas: 'commentWriteContent commentEditIcon';
     grid-template-columns: 75rem 5rem;
-    grid-template-rows: 1.5rem 3.5rem;
     width: 80rem;
     height: 5rem;
     margin: 20px 30px;
@@ -253,19 +250,10 @@ body {
     border-radius: 5px;
 }
 
-.commentWriteNickname {
-    grid-area: commentWriteNickname;
-    padding: 7px 10px;
-    font-size: 1rem;
-    color: black;
-    font-family: 'GmarketSans';
-    cursor: pointer;
-}
-
 .commentWriteContent {
     grid-area: commentWriteContent;
     padding: 7px 10px;
-    height: 50px;
+    height: 90%;
     font-size: 1rem;
     color: black;
     font-family: 'GmarketSans';

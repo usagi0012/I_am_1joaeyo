@@ -93,7 +93,6 @@ authRouter.post('/signup', async (req, res) => {
 //로그인 기능
 authRouter.post('/signin', async (req, res) => {
     const { email, password } = req.body;
-    console.log(email);
 
     const emailValidationRegex = new RegExp('[a-z0-9._]+@[a-z]+.[a-z]{2,3}');
     const isValidEmail = emailValidationRegex.test(email);
@@ -145,10 +144,16 @@ authRouter.post('/signin', async (req, res) => {
 });
 
 //로그아웃 기능
+<<<<<<< HEAD
 // authRouter.post('/logout', async (req, res) => {
 //     const currentCookie = req.cookies.authorization;
 //     g;
 //     res.clearCookie('authorization', { path: '/' });
+=======
+authRouter.post('/logout', async (req, res) => {
+    const currentCookie = req.cookies.authorization;
+    res.clearCookie('authorization', { path: '/' });
+>>>>>>> 9faca8284b42375b8827717d3261b6e5788c2cb2
 
 //     return res.status(200).json({
 //         success: true,
