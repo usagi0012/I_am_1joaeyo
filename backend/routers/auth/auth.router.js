@@ -3,9 +3,13 @@ import bcrypt from 'bcrypt';
 import db from '../../models/index.cjs';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import cookieParser from 'cookie-parser';
+
 dotenv.config();
 const authRouter = Router();
 const { Users } = db;
+
+authRouter.use(cookieParser());
 
 authRouter.get('/signup', (req, res) => {
     res.send(200);
@@ -129,7 +133,7 @@ authRouter.post('/signin', async (req, res) => {
         });
         return res
             .status(200)
-            .header('authorization', `Bearer ${accessToken}`)
+            .cookie('authorization', `Bearer ${accessToken}`)
             .send(
                 `<script type="text/javascript">alert("로그인에 성공했습니다.");document.location.href="http://127.0.0.1:5500/frontend/webapp/index.html";
             </script>`,
@@ -141,5 +145,17 @@ authRouter.post('/signin', async (req, res) => {
             message: '알 수 없는 오류가 발생하였습니다. 관리자에게 문의하세요.',
         });
     }
+});
+
+//로그아웃 기능
+authRouter.post('/logout', async (req, res) => {
+    const currentCookie = req.cookies.authorization;
+    g;
+    res.clearCookie('authorization', { path: '/' });
+
+    return res.status(200).json({
+        success: true,
+        message: '로그아웃에 성공했습니다.',
+    });
 });
 export default authRouter;
