@@ -154,3 +154,133 @@ body {
     color: #fff;
     line-height: 170%;
 }
+
+/* 댓글 부분 */
+
+#commentBox {
+    width: 84rem;
+    margin: 30px 0px;
+    padding: 20px 0px;
+    border: solid 1px #feba69;
+}
+
+#commentBox h2 {
+    font-family: 'GmarketSans';
+    font-weight: 500;
+    margin-top: 3px;
+    margin-left: 20px;
+    margin-bottom: 30px;
+    color: #feba69;
+}
+
+.comment {
+    display: grid;
+    grid-template-areas:
+        'commentNickname edit delete'
+        'commentContent edit delete';
+    grid-template-columns: 72rem 4rem 4rem;
+    grid-template-rows: 1.5rem 3.5rem;
+    width: 80rem;
+    height: 5rem;
+    margin: 20px 30px;
+    border: 1px solid #fff;
+    border-radius: 5px;
+}
+
+.commentNickname {
+    grid-area: commentNickname;
+    padding: 7px 10px;
+    font-size: 1rem;
+    color: #feba69;
+    font-family: 'GmarketSans';
+    cursor: pointer;
+}
+
+.commentContent {
+    grid-area: commentContent;
+    padding: 7px 10px;
+    font-size: 1rem;
+    color: #fff;
+    font-family: 'GmarketSans';
+}
+
+.post {
+    grid-area: postTitle;
+    width: 55rem;
+    padding: 29px 10px;
+    font-size: 1.2rem;
+    color: #fff;
+    font-family: 'GmarketSans';
+    cursor: pointer;
+}
+
+.editIcon {
+    grid-area: edit;
+    margin: 20px 10px;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background-color: #444a56;
+    font-size: 1.5rem;
+    color: white;
+    cursor: pointer;
+}
+
+.deleteIcon {
+    grid-area: delete;
+    margin: 20px 10px;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background-color: #444a56;
+    font-size: 1.5rem;
+    color: white;
+    cursor: pointer;
+}
+
+#commentWrite {
+    display: grid;
+    grid-template-areas:
+        'commentWriteNickname commentEditIcon'
+        'commentWriteContent commentEditIcon';
+    grid-template-columns: 75rem 5rem;
+    grid-template-rows: 1.5rem 3.5rem;
+    width: 80rem;
+    height: 5rem;
+    margin: 20px 30px;
+    border: solid 1px #feba69;
+    background-color: #fff;
+    border-radius: 5px;
+}
+
+.commentWriteNickname {
+    grid-area: commentWriteNickname;
+    padding: 7px 10px;
+    font-size: 1rem;
+    color: black;
+    font-family: 'GmarketSans';
+    cursor: pointer;
+}
+
+.commentWriteContent {
+    grid-area: commentWriteContent;
+    padding: 7px 10px;
+    height: 50px;
+    font-size: 1rem;
+    color: black;
+    font-family: 'GmarketSans';
+    border: none;
+    outline: none;
+}
+
+.commentEditIcon {
+    grid-area: commentEditIcon;
+    margin: 20px;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background-color: #fff;
+    font-size: 1.5rem;
+    color: #444a56;
+    cursor: pointer;
+}
