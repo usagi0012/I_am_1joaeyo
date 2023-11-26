@@ -2,7 +2,7 @@
 
 const loadData = () => {
     getUserInfo();
-    //getUserPosts();
+    getUserPosts();
 };
 
 /***
@@ -56,8 +56,11 @@ const updateUserInfo = () => {
  * 유저 게시글 목록 조회
  */
 const getUserPosts = () => {
-    fetch('http://localhost:3050//posts/userPosts', {
+    fetch('http://localhost:3050/posts/userPosts', {
         method: 'GET',
+        headers: {
+            authorization: headerToken,
+        },
     })
         .then(response => response.json())
         .then(data => {
