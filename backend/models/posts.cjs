@@ -8,9 +8,9 @@ module.exports = (sequelize, DataTypes) => {
          * The `models/index` file will call this method automatically.
          */
         static associate(models) {
-            this.belongsTo(models.Users, { as: 'user' });
-            this.hasMany(models.Likes, { foreignKey: 'postId', as: 'likes' });
-            this.hasMany(models.Comments, { foreignKey: 'postId', as: 'comments' });
+            this.belongsTo(models.Users, { as: 'user', onDelete: 'cascade' });
+            this.hasMany(models.Likes, { foreignKey: 'postId', as: 'likes', onDelete: 'cascade' });
+            this.hasMany(models.Comments, { foreignKey: 'postId', as: 'comments', onDelete: 'cascade' });
         }
     }
     Posts.init(
@@ -27,6 +27,9 @@ module.exports = (sequelize, DataTypes) => {
             },
             content: {
                 allowNull: false,
+                type: DataTypes.STRING,
+            },
+            image: {
                 type: DataTypes.STRING,
             },
             userId: {

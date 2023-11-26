@@ -120,7 +120,7 @@ usersRouter.patch('/members', needSignin, async (req, res) => {
                 ...(description && { description }),
                 password: newHashedPassword,
             },
-            { where: { id } },
+            { where: { id } }
         );
         res.status(200).json({
             success: true,

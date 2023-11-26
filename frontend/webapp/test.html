@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <form id="testForm" enctype="multipart/form-data">
+            <label for="file">Select a file:</label>
+            <input type="file" name="file" id="file" required />
+            <br />
+            <label for="title">Title:</label>
+            <input type="text" name="title" id="title" required />
+            <label for="title">Content:</label>
+            <input type="text" name="content" id="content" required />
+            <br />
+            <button type="button" onclick="submitForm()">전송 버튼</button>
+        </form>
+        <script>
+            function submitForm() {
+                const form = document.querySelector('#testForm');
+                const formData = new FormData(form);
+                const headers = new Headers();
+
+                headers.append(
+                    'Authorization',
+                    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlhdCI6MTcwMDgxMzM4NywiZXhwIjoxNzAwODE2OTg3fQ.Z4JbIlD_37tvMurRijf1S4M9Vq6X2VkfRNrhZlIYM40'
+                );
+                alert('전송');
+                fetch('http://localhost:3050/posts', {
+                    method: 'POST',
+                    body: formData,
+                    headers: headers,
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        // 서버로부터의 응답 처리
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+        </script>
+    </body>
+</html>

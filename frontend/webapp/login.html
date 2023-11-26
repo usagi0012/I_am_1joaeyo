@@ -5,39 +5,42 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>login</title>
         <link rel="stylesheet" href="css/login.css" />
+        <script src="./js/login.js" defer></script>
     </head>
 
     <body>
         <div class="headWrap">
-            <div class="logo">
+            <div class="logo" onclick="toHome()">
                 <img src="../resources/moovieLogo.png" id="moovieLogo" />
             </div>
         </div>
         <div class="login-box">
             <h2>Login</h2>
-            <form>
+            <form method="POST" action="http://localhost:3050/authRouter/signin" id="submitInput">
                 <div class="user-box">
-                    <input type="text" name="email" required="" />
-                    <label>Email</label>
+                    <input type="text" id="email" name="email" required="" />
+                    <label for="email">Email</label>
                 </div>
                 <div class="user-box">
-                    <input type="password" name="password" required="" />
-                    <label>Password</label>
+                    <input type="password" id="password" name="password" required="" />
+                    <label for="password">Password</label>
                 </div>
 
-                <a href="#" class="submit-btn" id="submitBtn">
+                <a id="submitBtn">
                     <span></span>
                     <span></span>
                     <span></span>
                     <span></span>
-                    submit
+                    <input type="submit" class="btn" value="submit" />
                 </a>
-                <a href="#" class="signup-btn" id="signupBtn">
+            </form>
+            <form>
+                <a id="signupBtn">
                     <span></span>
                     <span></span>
                     <span></span>
                     <span></span>
-                    Sign up
+                    <input type="button" onclick="toSignup()" class="btn" value="Sign up" />
                 </a>
             </form>
         </div>
