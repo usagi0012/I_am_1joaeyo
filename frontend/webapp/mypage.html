@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
@@ -13,6 +13,7 @@
         />
         <link href="https://webfontworld.github.io/gmarket/GmarketSans.css" rel="stylesheet" />
         <link rel="stylesheet" href="css/mypage.css" />
+        <script src="./js/myPage.js" defer></script>
     </head>
 
     <body>
@@ -39,9 +40,10 @@
                     <form class="formBox">
                         <div class="nicknameBox">
                             <!-- 여기 value값 백 연결할때 자기닉네임값 가져오기 -->
-                            <input type="text" value="testname" required="" />
+                            <input type="text" id="nickname" value="testname" required="" />
                         </div>
                         <div class="descriptionBox">
+                            <textarea maxlength="300" id="description">기본 값을 어떻게 넣어야할지 모르겠어요</textarea>
                             <input
                                 type="text"
                                 value="기본 값을 어떻게 넣어야할지 모르겠어요"

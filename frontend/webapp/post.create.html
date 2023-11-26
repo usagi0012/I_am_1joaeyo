@@ -18,13 +18,16 @@
         />
         <link href="https://webfontworld.github.io/gmarket/GmarketSans.css" rel="stylesheet" />
         <link rel="stylesheet" href="css/postcreate.css" />
+        <script src="./js/post.create.js" defer></script>
     </head>
 
     <body>
         <div id="wrap">
             <div class="headWrap">
                 <div class="logo">
-                    <img src="../resources/moovieLogo.png" id="moovieLogo" />
+                    <a href="./index.html">
+                        <img src="../resources/moovieLogo.png" id="moovieLogo" />
+                    </a>
                 </div>
                 <div class="iconBox">
                     <button type="button" class="icon" id="addPost">
@@ -36,23 +39,25 @@
                 </div>
             </div>
         </div>
-        <div class="bodyWrap">
-            <div class="Container">
-                <h2>Title</h2>
-                <form id="titleBox">
-                    <input type="text" placeholder="제목을 입력하세요." />
-                </form>
-                <form id="contentBox">
-                    <textarea></textarea>
-                </form>
-                <label for="file">
-                    <div class="btn-upload">이미지 업로드</div>
-                </label>
-                <input type="file" name="file" id="file" />
-                <div class="btnDone">
-                    <a href="#">등록</a>
+        <form id="createForm" enctype="multipart/form-data">
+            <div class="bodyWrap">
+                <div class="Container">
+                    <h2>Title</h2>
+                    <div id="titleBox">
+                        <input type="text" id="title" name="title" placeholder="제목을 입력하세요." />
+                    </div>
+                    <div id="contentBox">
+                        <textarea id="content" name="content"></textarea>
+                    </div>
+                    <label for="file">
+                        <div class="btn-upload">이미지 업로드</div>
+                    </label>
+                    <input type="file" name="file" id="file" />
+                    <div class="btnDone" onclick="submitForm()">
+                        <a href="#">등록</a>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
     </body>
 </html>
