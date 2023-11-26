@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
@@ -13,18 +13,17 @@
         />
         <link href="https://webfontworld.github.io/gmarket/GmarketSans.css" rel="stylesheet" />
         <link rel="stylesheet" href="css/mypage.css" />
-        <script src="./js/util.js"></script>
         <script src="./js/myPage.js" defer></script>
     </head>
 
     <body>
         <div id="wrap">
             <div class="headWrap">
-                <div class="logo">
+                <div class="logo" onclick="toHome()">
                     <img src="../resources/moovieLogo.png" id="moovieLogo" />
                 </div>
                 <div class="iconBox">
-                    <button type="button" class="icon" id="logout">
+                    <button type="button" onclick="logout()" class="icon" id="logout">
                         <i class="fas fa-solid fa-right-to-bracket"></i>
                     </button>
                     <button type="button" class="icon" id="addPost">

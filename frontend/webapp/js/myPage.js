@@ -5,6 +5,9 @@ const loadData = () => {
     //getUserPosts();
 };
 
+//유정 정보를 불러오기 위해 로컬스토리지에서 토큰 가져오기
+const token = window.localStorage.getItem('token');
+
 /***
  * API호출후 유저정보 출력
  */
@@ -29,7 +32,7 @@ const updateUserInfo = () => {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
-            authorization: headerToken,
+            authorization: token,
         },
         body: JSON.stringify({
             nickname,
@@ -73,7 +76,7 @@ const getUserInfo = () => {
     fetch('http://localhost:3050/user/members', {
         method: 'GET',
         headers: {
-            authorization: headerToken,
+            authorization: token,
         },
     })
         .then(response => response.json())
@@ -88,5 +91,17 @@ const getUserInfo = () => {
         })
         .catch(error => console.error('Error:', error));
 };
+
+//로그아웃 버튼 클릭
+function logout() {
+    window.localStorage.removeItem('token');
+    alert('로그아웃 되었습니다.');
+    location.href = 'http://127.0.0.1:5500/frontend/webapp/index.html';
+}
+
+//홈버튼
+function toHome() {
+    location.href = 'http://127.0.0.1:5500/frontend/webapp/index.html';
+}
 
 window.onload = loadData();
