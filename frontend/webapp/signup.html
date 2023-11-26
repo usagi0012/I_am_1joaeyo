@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>signup</title>
+        <link rel="stylesheet" href="css/signup.css" />
+        <script src="./js/signup.js" defer></script>
+    </head>
+
+    <body>
+        <div class="logo" onclick="toHome()">
+            <img src="../resources/moovieLogo.png" id="moovieLogo" />
+        </div>
+        <div class="signup-box">
+            <h2>Sign up</h2>
+            <form method="POST" action="http://localhost:3050/authRouter/signup">
+                <div class="user-box">
+                    <input type="text" name="nickname" required="" />
+                    <label>Nickname</label>
+                </div>
+                <div class="user-box">
+                    <input type="text" name="email" required="" />
+                    <label>Email</label>
+                </div>
+                <div class="user-box">
+                    <input type="password" name="password" required="" />
+                    <label>Password</label>
+                </div>
+                <div class="user-box">
+                    <input type="password" name="passwordConfirm" required="" />
+                    <label>Password Confirm</label>
+                </div>
+
+                <a href="#" id="submitBtn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <input type="submit" class="btn" value="submit" />
+                </a>
+            </form>
+        </div>
+    </body>
+</html>

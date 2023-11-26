@@ -18,6 +18,13 @@ postsRouter.post('/', needSignin, async (req, res) => {
             });
         }
 
+        if (title.length > 50) {
+            return res.status(400).json({
+                success: false,
+                message: '제목은 공백포함 50자 이하로 작성해주세요.',
+            });
+        }
+
         const post = await Posts.create({ title, content, image, userId });
 
         return res.status(201).json({
@@ -56,6 +63,15 @@ postsRouter.put('/:postId', needSignin, async (req, res) => {
                 success: false,
                 message: '게시글이 존재하지 않습니다.',
             });
+        }
+
+        if (title) {
+            if (title.length > 50) {
+                return res.status(400).json({
+                    success: false,
+                    message: '제목은 공백포함 50자 이하로 작성해주세요.',
+                });
+            }
         }
 
         await post.update(

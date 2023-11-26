@@ -1,6 +1,9 @@
 import express from 'express';
 import db from './models/index.cjs';
 import apiRouter from './routers/index.js';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
 
 const app = express();
 const port = 3050;
@@ -13,7 +16,10 @@ try {
 }
 
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(bodyParser.json());
+app.use(cors());
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(apiRouter);
 
