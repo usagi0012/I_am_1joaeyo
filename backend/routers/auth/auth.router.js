@@ -132,11 +132,14 @@ authRouter.post('/signin', async (req, res) => {
         const accessToken = jwt.sign({ userId: user.id }, process.env.JWT_KEY, {
             expiresIn: '1h',
         });
-        return res.status(200).header('authorization', `Bearer ${accessToken}`).json({
-            success: true,
-            message: '로그인에 성공했습니다.',
-            data: { accessToken },
-        });
+        return res
+            .status(200)
+            .header('authorization', `Bearer ${accessToken}`)
+            .json({
+                success: true,
+                message: '로그인에 성공했습니다.',
+                data: `Bearer ${accessToken}`,
+            });
     } catch (error) {
         console.log(error);
         return res.status(500).json({

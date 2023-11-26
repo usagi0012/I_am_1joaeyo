@@ -2,7 +2,7 @@ const postCardContainer = document.getElementById('postCardContainer');
 const bestCardContainer = document.getElementById('bestCardContainer');
 
 //기본 메인 페이지 불러오기
-window.onload = loadData;
+window.onload = loadData();
 
 //카드 로드
 function loadData(sort) {
@@ -64,4 +64,25 @@ function sortPostList(value) {
 //게시글 상세페이지로 이동시키는 함수
 function toDetailPage(postId) {
     location.href = `http://127.0.0.1:5500/frontend/webapp/detailpost.html?id=${postId}`;
+}
+
+//로그인 상태에 따른 회원 아이콘 클릭시 이동 함수
+function profileIcon() {
+    const token = window.localStorage.getItem('token');
+    if (token) {
+        location.href = 'http://127.0.0.1:5500/frontend/webapp/mypage.html';
+    } else {
+        location.href = 'http://127.0.0.1:5500/frontend/webapp/login.html';
+    }
+}
+
+//로그인 상태에 따른 글 작성 아이콘 클릭시 이동 함수
+function createPostIcon() {
+    const token = window.localStorage.getItem('token');
+    if (token) {
+        location.href = 'http://127.0.0.1:5500/frontend/webapp/post.create.html';
+    } else {
+        alert('로그인 후 이용 가능한 기능입니다.');
+        location.href = 'http://127.0.0.1:5500/frontend/webapp/login.html';
+    }
 }

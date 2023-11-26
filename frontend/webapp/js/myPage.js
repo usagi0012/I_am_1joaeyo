@@ -5,6 +5,9 @@ const loadData = () => {
     getUserPosts();
 };
 
+//유정 정보를 불러오기 위해 로컬스토리지에서 토큰 가져오기
+const token = window.localStorage.getItem('token');
+
 /***
  * API호출후 유저정보 출력
  */
@@ -29,7 +32,7 @@ const updateUserInfo = () => {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
-            authorization: headerToken,
+            authorization: token,
         },
         body: JSON.stringify({
             nickname,
@@ -76,7 +79,7 @@ const getUserInfo = () => {
     fetch('http://localhost:3050/user/members', {
         method: 'GET',
         headers: {
-            authorization: headerToken,
+            authorization: token,
         },
     })
         .then(response => response.json())
@@ -91,5 +94,38 @@ const getUserInfo = () => {
         })
         .catch(error => console.error('Error:', error));
 };
+
+//로그아웃 버튼 클릭
+function logout() {
+    window.localStorage.removeItem('token');
+    alert('로그아웃 되었습니다.');
+    location.href = 'http://127.0.0.1:5500/frontend/webapp/index.html';
+}
+
+//로그인 상태에 따른 회원 아이콘 클릭시 이동 함수
+function profileIcon() {
+    const token = window.localStorage.getItem('token');
+    if (token) {
+        location.href = 'http://127.0.0.1:5500/frontend/webapp/mypage.html';
+    } else {
+        location.href = 'http://127.0.0.1:5500/frontend/webapp/login.html';
+    }
+}
+
+//로그인 상태에 따른 글 작성 아이콘 클릭시 이동 함수
+function createPostIcon() {
+    const token = window.localStorage.getItem('token');
+    if (token) {
+        location.href = 'http://127.0.0.1:5500/frontend/webapp/post.create.html';
+    } else {
+        alert('로그인 후 이용 가능한 기능입니다.');
+        location.href = 'http://127.0.0.1:5500/frontend/webapp/login.html';
+    }
+}
+
+//홈버튼
+function toHome() {
+    location.href = 'http://127.0.0.1:5500/frontend/webapp/index.html';
+}
 
 window.onload = loadData();

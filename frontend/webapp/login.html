@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
@@ -16,7 +16,7 @@
         </div>
         <div class="login-box">
             <h2>Login</h2>
-            <form method="POST" action="http://localhost:3050/authRouter/signin" id="submitInput">
+            <form id="submitInput">
                 <div class="user-box">
                     <input type="text" id="email" name="email" required="" />
                     <label for="email">Email</label>
@@ -31,7 +31,7 @@
                     <span></span>
                     <span></span>
                     <span></span>
-                    <input type="submit" class="btn" value="submit" />
+                    <input type="button" class="btn" value="submit" />
                 </a>
             </form>
             <form>
@@ -40,10 +40,9 @@
                     <span></span>
                     <span></span>
                     <span></span>
-                    <input type="button" onclick="toSignup()" class="btn" value="Sign up" />
+                    <input type="button" class="btn" value="Sign up" />
                 </a>
             </form>
         </div>
-        <script src="./js/login.js"></script>
     </body>
 </html>

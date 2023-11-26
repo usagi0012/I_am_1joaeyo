@@ -2,15 +2,18 @@ const submitForm = () => {
     const form = document.querySelector('#createForm');
     const formData = new FormData(form);
     const headers = new Headers();
+    const token = window.localStorage.getItem('token');
 
     headers.append(
         'Authorization',
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlhdCI6MTcwMDk2OTUwMSwiZXhwIjoxNzAwOTczMTAxfQ.10Ho9-OBMD8ndLNpPW658gZGIgyFJsqiKqiZljrLP2M'
+        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlhdCI6MTcwMDk2OTUwMSwiZXhwIjoxNzAwOTczMTAxfQ.10Ho9-OBMD8ndLNpPW658gZGIgyFJsqiKqiZljrLP2M',
     );
     fetch('http://localhost:3050/posts', {
         method: 'POST',
         body: formData,
-        headers,
+        headers: {
+            authorization: token,
+        },
     })
         .then(response => response.json())
         .then(data => {
