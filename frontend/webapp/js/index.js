@@ -2,7 +2,7 @@ const postCardContainer = document.getElementById('postCardContainer');
 const bestCardContainer = document.getElementById('bestCardContainer');
 
 //기본 메인 페이지 불러오기
-window.onload = loadData;
+window.onload = loadData();
 
 //카드 로드
 function loadData(sort) {
