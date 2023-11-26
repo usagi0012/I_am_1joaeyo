@@ -2,7 +2,7 @@
 
 const loadData = () => {
     getUserInfo();
-    //getUserPosts();
+    getUserPosts();
 };
 
 //유정 정보를 불러오기 위해 로컬스토리지에서 토큰 가져오기
@@ -59,8 +59,11 @@ const updateUserInfo = () => {
  * 유저 게시글 목록 조회
  */
 const getUserPosts = () => {
-    fetch('http://localhost:3050//posts/userPosts', {
+    fetch('http://localhost:3050/posts/userPosts', {
         method: 'GET',
+        headers: {
+            authorization: headerToken,
+        },
     })
         .then(response => response.json())
         .then(data => {

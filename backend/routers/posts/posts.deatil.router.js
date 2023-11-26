@@ -2,6 +2,7 @@ import express from 'express';
 import db from '../../models/index.cjs';
 import Response from '../../util/response/response.js';
 import moment from 'moment-timezone';
+import { needSignin } from '../../middleware/auth.middleware.js';
 
 const postsRouter = express.Router();
 const { Posts, Users, Likes } = db;
@@ -108,12 +109,13 @@ postsRouter.get('/:postId', async (req, res) => {
 /**
  * 마이페이지 게시글 조회 API
  */
-postsRouter.get('/userPosts', async (req, res) => {
-    const id = 1;
+postsRouter.get('/userPosts', needSignin, async (req, res) => {
+    const userId = req.locals.user;
 
+    console.log('게시글조회');
     const posts = await Posts.findAll({
         where: {
-            id,
+            userId,
         },
         attributes: ['id', 'title', 'userId', 'createdAt'],
         include: [

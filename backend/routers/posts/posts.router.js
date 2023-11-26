@@ -10,7 +10,7 @@ const { Posts } = db;
 // 게시글 작성 API
 postsRouter.post('/', [needSignin, upload.single('file')], async (req, res) => {
     try {
-        const userId = res.locals.user;
+        const userId = req.locals.user;
         const file = req.file;
         const { title, content } = req.body;
 
@@ -73,7 +73,7 @@ postsRouter.post('/', [needSignin, upload.single('file')], async (req, res) => {
 // 게시글 수정 API
 postsRouter.put('/:postId', [needSignin, upload.single('file')], async (req, res) => {
     try {
-        const userId = res.locals.user;
+        const userId = req.locals.user;
         const { postId } = req.params;
         const file = req.file;
         const { title, content } = req.body;
@@ -155,7 +155,7 @@ postsRouter.put('/:postId', [needSignin, upload.single('file')], async (req, res
 // 게시글 삭제 API
 postsRouter.delete('/:postId', needSignin, async (req, res) => {
     try {
-        const userId = res.locals.user;
+        const userId = req.locals.user;
         const { postId } = req.params;
 
         const post = await Posts.findByPk(postId);
