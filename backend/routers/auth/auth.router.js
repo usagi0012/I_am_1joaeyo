@@ -144,17 +144,10 @@ authRouter.post('/signin', async (req, res) => {
 });
 
 //로그아웃 기능
-<<<<<<< HEAD
 // authRouter.post('/logout', async (req, res) => {
 //     const currentCookie = req.cookies.authorization;
 //     g;
 //     res.clearCookie('authorization', { path: '/' });
-=======
-authRouter.post('/logout', async (req, res) => {
-    const currentCookie = req.cookies.authorization;
-    res.clearCookie('authorization', { path: '/' });
->>>>>>> 9faca8284b42375b8827717d3261b6e5788c2cb2
-
 //     return res.status(200).json({
 //         success: true,
 //         message: '로그아웃에 성공했습니다.',

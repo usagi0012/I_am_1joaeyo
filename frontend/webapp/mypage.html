@@ -13,9 +13,7 @@
         />
         <link href="https://webfontworld.github.io/gmarket/GmarketSans.css" rel="stylesheet" />
         <link rel="stylesheet" href="css/mypage.css" />
-        <script>
-            let test = 10;
-        </script>
+        <script src="./js/util.js"></script>
         <script src="./js/myPage.js" defer></script>
     </head>
 
@@ -63,9 +61,9 @@
                     <h2>Password</h2>
                     <form class="formBox">
                         <div class="passwordBox">
-                            <input type="text" id="currentPwd" value="current password" required="" />
-                            <input type="text" id="newPwd" value="new password" required="" />
-                            <input type="text" id="newPwdConfirm" value="new password confirm" required="" />
+                            <input type="text" id="currentPwd" placeholder="current password" required="" />
+                            <input type="text" id="newPwd" placeholder="new password" required="" />
+                            <input type="text" id="newPwdConfirm" placeholder="new password confirm" required="" />
                         </div>
                         <button class="submitBtn" type="button" onclick="updateUserInfo()">edit</button>
                     </form>

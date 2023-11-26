@@ -1,8 +1,7 @@
 //기본 메인 페이지 불러오기
 
 const loadData = () => {
-    alert(test);
-    //getUserInfo();
+    getUserInfo();
     //getUserPosts();
 };
 
@@ -26,18 +25,18 @@ const updateUserInfo = () => {
     const currentPwd = document.querySelector('#currentPwd').value;
     const newPwd = document.querySelector('#newPwd').value;
     const newPwdConfirm = document.querySelector('#newPwdConfirm').value;
-
     fetch('http://localhost:3050/user/members', {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
+            authorization: headerToken,
         },
         body: JSON.stringify({
             nickname,
             description,
             currentPassword: currentPwd,
             newPassword: newPwd,
-            newPwdConfirm: newPwdConfirm,
+            confirmNewPassword: newPwdConfirm,
         }),
     })
         .then(response => response.json())
@@ -73,7 +72,9 @@ const getUserPosts = () => {
 const getUserInfo = () => {
     fetch('http://localhost:3050/user/members', {
         method: 'GET',
-        credentials: 'include',
+        headers: {
+            authorization: headerToken,
+        },
     })
         .then(response => response.json())
         .then(data => {
