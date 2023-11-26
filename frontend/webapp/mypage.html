@@ -13,6 +13,9 @@
         />
         <link href="https://webfontworld.github.io/gmarket/GmarketSans.css" rel="stylesheet" />
         <link rel="stylesheet" href="css/mypage.css" />
+        <script>
+            let test = 10;
+        </script>
         <script src="./js/myPage.js" defer></script>
     </head>
 
@@ -43,7 +46,6 @@
                             <input type="text" id="nickname" value="testname" required="" />
                         </div>
                         <div class="descriptionBox">
-                            <textarea maxlength="300" id="description">기본 값을 어떻게 넣어야할지 모르겠어요</textarea>
                             <input
                                 type="text"
                                 value="기본 값을 어떻게 넣어야할지 모르겠어요"
@@ -54,18 +56,18 @@
                             <!-- <textarea maxlength="300">기본 값을 어떻게 넣어야할지 모르겠어요</textarea> -->
                             <!-- <input type="text" value="testdescription" required="" /> -->
                         </div>
-                        <button class="submitBtn" type="submit">edit</button>
+                        <button class="submitBtn" type="button" onclick="updateUserInfo()">edit</button>
                     </form>
                 </div>
                 <div class="passwordContainer">
                     <h2>Password</h2>
                     <form class="formBox">
                         <div class="passwordBox">
-                            <input type="text" value="current password" required="" />
-                            <input type="text" value="new password" required="" />
-                            <input type="text" value="new password confirm" required="" />
+                            <input type="text" id="currentPwd" value="current password" required="" />
+                            <input type="text" id="newPwd" value="new password" required="" />
+                            <input type="text" id="newPwdConfirm" value="new password confirm" required="" />
                         </div>
-                        <button class="submitBtn" type="submit">edit</button>
+                        <button class="submitBtn" type="button" onclick="updateUserInfo()">edit</button>
                     </form>
                 </div>
                 <div class="myPostContainer">
