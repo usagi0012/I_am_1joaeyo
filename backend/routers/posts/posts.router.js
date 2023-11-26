@@ -58,7 +58,7 @@ postsRouter.post('/', [needSignin, upload.single('file')], async (req, res) => {
         console.error(error);
         return res.status(500).json({
             sucess: false,
-            message: '알 수 없는 오류가 발생하였습니다. 관리자에게 문의해주세요.',
+            message: '알수 없는 오류가 발생하였습니다. 관리자에게 문의해주세요.',
         });
     }
 });
