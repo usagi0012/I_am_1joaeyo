@@ -11,7 +11,7 @@ const { Posts, Users, Likes } = db;
  */
 postsRouter.get('/', async (req, res) => {
     const posts = await Posts.findAll({
-        attributes: ['id', 'title', 'userId', 'createdAt'],
+        attributes: ['id', 'title', 'userId', 'createdAt', 'image'],
         include: [
             {
                 model: Users,
@@ -28,7 +28,7 @@ postsRouter.get('/', async (req, res) => {
     });
 
     const bestPosts = await Posts.findAll({
-        attributes: ['id', 'title', 'userId', 'createdAt'],
+        attributes: ['id', 'title', 'userId', 'createdAt', 'image'],
         include: [
             {
                 model: Users,
