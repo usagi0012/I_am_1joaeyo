@@ -98,7 +98,11 @@ postsRouter.get('/:postId', async (req, res) => {
     const successPost = resultPost.toJSON();
     successPost.createdAt = moment(resultPost.createdAt).format('YYYY-MM-DD hh:mm:ss');
 
-    return res.status(200).json(Response.successResult('게시글 상세 조회 성공', successPost));
+    return res.status(200).json({
+        success: true,
+        messege: '게시글 상세 조회 성공',
+        data: successPost,
+    });
 });
 
 /**

@@ -1,16 +1,21 @@
 import jwt from 'jsonwebtoken';
 import db from '../models/index.cjs';
 import dotenv from 'dotenv';
+import cookieParser from 'cookie-parser';
+import authRouter from '../routers/auth/auth.router.js';
+
 dotenv.config();
 
 const { Users } = db;
 
+authRouter.use(cookieParser());
 export const needSignin = async (req, res, next) => {
     //인증 정보가 없는경우
     try {
-        const authorizationHeader = req.headers.authorization;
+        const authorizationHeader = req.cookies && req.cookies.authorization;
+        console.log('Authorization Header:', authorizationHeader);
         if (!authorizationHeader) {
-            res.status(400).json({
+            return res.status(400).json({
                 success: false,
                 message: '인증정보가 없습니다.',
             });
@@ -64,6 +69,7 @@ export const needSignin = async (req, res, next) => {
                 errorMessage = '유효하지 않은 인증번호입니다.';
                 break;
             default:
+                console.log(error);
                 statusCode = 500;
                 errorMessage = '알 수 없는 오류가 발생하였습니다. 관리자에게 문의하세요.';
                 break;
