@@ -17,10 +17,10 @@ authRouter.post('/signup', async (req, res) => {
         const { nickname, email, password, passwordConfirm } = req.body;
         console.log(nickname);
         if (!nickname || !email || !password) {
-            return res.status(400).send(
-                `<script type="text/javascript">alert("정보를 모두 입력해주세요.");document.location.href="http://127.0.0.1:5500/frontend/webapp/signup.html?";
-            </script>`,
-            );
+            return res.status(400).json({
+                success: false,
+                message: '정보를 모두 입력해주세요.',
+            });
         }
 
         //닉네임 유효성 검사
@@ -29,28 +29,28 @@ authRouter.post('/signup', async (req, res) => {
             return nicknameRegex.test(nickname);
         };
         if (!validNickname(nickname)) {
-            return res.status(400).send(
-                `<script type="text/javascript">alert("닉네임은 한글, 영문, 숫자만 가능하며 2-10자리 사이여야 합니다.");document.location.href="http://127.0.0.1:5500/frontend/webapp/signup.html?";
-            </script>`,
-            );
+            return res.status(400).json({
+                success: false,
+                message: '닉네임은 한글, 영문, 숫자만 가능하며 2-10자리 사이여야 합니다.',
+            });
         }
 
         //이메일 유효성 검사
         const emailValidationRegex = new RegExp('[a-z0-9._]+@[a-z]+.[a-z]{2,3}');
         const isValidEmail = emailValidationRegex.test(email);
         if (!isValidEmail) {
-            return res.status(400).send(
-                `<script type="text/javascript">alert("이메일 형식이 올바르지 않습니다.");document.location.href="http://127.0.0.1:5500/frontend/webapp/signup.html?";
-            </script>`,
-            );
+            return res.status(400).json({
+                success: false,
+                message: '이메일 형식이 올바르지 않습니다.',
+            });
         }
 
         const existUser = await Users.findOne({ where: { email } });
         if (existUser) {
-            return res.status(400).send(
-                `<script type="text/javascript">alert("이미 가입된 이메일입니다.");document.location.href="http://127.0.0.1:5500/frontend/webapp/login.html?";
-            </script>`,
-            );
+            return res.status(400).json({
+                success: false,
+                message: '이미 가입된 이메일입니다.',
+            });
         }
 
         //비밀번호 유효성 검사 함수
@@ -59,17 +59,17 @@ authRouter.post('/signup', async (req, res) => {
             return passwordRegex.test(newPassword);
         };
         if (!validPassword(password)) {
-            return res.status(400).send(
-                `<script type="text/javascript">alert("비밀번호는 8-20자 영문, 숫자 조합으로 이루어져야 합니다.");document.location.href="http://127.0.0.1:5500/frontend/webapp/signup.html?";
-            </script>`,
-            );
+            return res.status(400).json({
+                success: false,
+                message: '비밀번호는 8-20자 영문, 숫자 조합으로 이루어져야 합니다.',
+            });
         }
 
         if (password !== passwordConfirm) {
-            return res.status(400).send(
-                `<script type="text/javascript">alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");document.location.href="http://127.0.0.1:5500/frontend/webapp/signup.html?";
-            </script>`,
-            );
+            return res.status(400).json({
+                success: false,
+                message: '비밀번호와 비밀번호 확인이 일치하지 않습니다.',
+            });
         }
 
         const hashedPassword = bcrypt.hashSync(password, 13);
@@ -77,10 +77,11 @@ authRouter.post('/signup', async (req, res) => {
         const newUser = (await Users.create({ nickname, email, password: hashedPassword })).toJSON();
         delete newUser.password;
 
-        return res.status(201).send(
-            `<script type="text/javascript">alert("회원가입에 성공했습니다.");document.location.href="http://127.0.0.1:5500/frontend/webapp/login.html?";
-        </script>`,
-        );
+        return res.status(201).json({
+            success: true,
+            message: '회원가입에 성공했습니다.',
+            data: newUser,
+        });
     } catch (error) {
         console.log(error);
         return res.status(500).json({
@@ -97,43 +98,45 @@ authRouter.post('/signin', async (req, res) => {
     const emailValidationRegex = new RegExp('[a-z0-9._]+@[a-z]+.[a-z]{2,3}');
     const isValidEmail = emailValidationRegex.test(email);
     if (!isValidEmail) {
-        return res.status(400)
-            .send(`<script type="text/javascript">alert("이메일 형식이 올바르지 않습니다.");document.location.href="http://127.0.0.1:5500/frontend/webapp/login.html?";
-        </script>`);
+        return res.status(400).json({
+            success: false,
+            message: '이메일 형식이 올바르지 않습니다.',
+        });
     }
 
     if (!password) {
-        return res.status(400)
-            .send(`<script type="text/javascript">alert("비밀번호를 입력해주세요.");document.location.href="http://127.0.0.1:5500/frontend/webapp/login.html?";
-        </script>`);
+        return res.status(400).json({
+            success: false,
+            message: '비밀번호를 입력해주세요',
+        });
     }
 
     const user = (await Users.findOne({ where: { email } }))?.toJSON();
     if (!user) {
-        return res.status(401)
-            .send(`<script type="text/javascript">alert("유저 정보가 없습니다. 회원가입 후 이용해주세요.");document.location.href="http://127.0.0.1:5500/frontend/webapp/signup.html?";
-        </script>`);
+        return res.status(401).json({
+            success: false,
+            message: '유저 정보가 없습니다. 회원가입 후 이용해주세요.',
+        });
     }
 
     const hashedPassword = user?.password;
     const ispasswordMatched = bcrypt.compareSync(password, hashedPassword);
     if (!ispasswordMatched) {
-        return res.status(401)
-            .send(`<script type="text/javascript">alert("비밀번호가 틀립니다.");document.location.href="http://127.0.0.1:5500/frontend/webapp/login.html?";
-        </script>`);
+        return res.status(401).json({
+            success: false,
+            message: '비밀번호가 틀립니다.',
+        });
     }
 
     try {
         const accessToken = jwt.sign({ userId: user.id }, process.env.JWT_KEY, {
             expiresIn: '1h',
         });
-        return res
-            .status(200)
-            .header('authorization', `Bearer ${accessToken}`)
-            .send(
-                `<script type="text/javascript">alert("로그인에 성공했습니다.");document.location.href="http://127.0.0.1:5500/I_am_1joaeyo/frontend/webapp/index.html";
-            </script>`,
-            );
+        return res.status(200).header('authorization', `Bearer ${accessToken}`).json({
+            success: true,
+            message: '로그인에 성공했습니다.',
+            data: { accessToken },
+        });
     } catch (error) {
         console.log(error);
         return res.status(500).json({
