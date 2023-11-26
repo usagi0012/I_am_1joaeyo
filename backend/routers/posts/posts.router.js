@@ -14,6 +14,13 @@ postsRouter.post('/', [needSignin, upload.single('file')], async (req, res) => {
         const file = req.file;
         const { title, content } = req.body;
 
+        if (!file) {
+            return res.status(400).json({
+                success: false,
+                message: '이미지가 등록되지 않았습니다.',
+            });
+        }
+
         if (!title || !content) {
             return res.status(400).json({
                 success: false,
