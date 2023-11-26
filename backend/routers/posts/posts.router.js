@@ -1,17 +1,20 @@
 import express from 'express';
 import db from '../../models/index.cjs';
 import { needSignin } from '../../middleware/auth.middleware.js';
+import { upload, s3 } from '../../util/file.uploader.js';
+import { v4 } from 'uuid';
 
 const postsRouter = express.Router();
 const { Posts } = db;
 
 // 게시글 작성 API
-postsRouter.post('/', needSignin, async (req, res) => {
+postsRouter.post('/', [needSignin, upload.single('file')], async (req, res) => {
     try {
         const userId = res.locals.user;
-        const { title, content, image } = req.body;
+        const file = req.file;
+        const { title, content } = req.body;
 
-        if (!title || !content || !image) {
+        if (!title || !content) {
             return res.status(400).json({
                 success: false,
                 message: '형식에 맞게 작성해주세요.',
@@ -25,7 +28,26 @@ postsRouter.post('/', needSignin, async (req, res) => {
             });
         }
 
-        const post = await Posts.create({ title, content, image, userId });
+        const params = {
+            Bucket: 'my-kimbuket',
+            Key: v4(),
+            Body: file.buffer,
+            ContentType: file.mimetype,
+            ACL: 'public-read',
+        };
+
+        let result;
+        try {
+            result = await s3.upload(params).promise();
+        } catch (err) {
+            console.log(err);
+            return res.status(500).json({
+                sucess: false,
+                message: '파일 업로드에 실패하였습니다.',
+            });
+        }
+        console.log(result.Location);
+        const post = await Posts.create({ title, content, image: result.Location, userId });
 
         return res.status(201).json({
             success: true,
@@ -36,20 +58,21 @@ postsRouter.post('/', needSignin, async (req, res) => {
         console.error(error);
         return res.status(500).json({
             sucess: false,
-            message: '알 수 없는 오류가 발생하였습니다. 관리자에게 문의해주세요.',
+            message: '알수 없는 오류가 발생하였습니다. 관리자에게 문의해주세요.',
         });
     }
 });
 
 // 게시글 수정 API
-postsRouter.put('/:postId', needSignin, async (req, res) => {
+postsRouter.put('/:postId', [needSignin, upload.single('file')], async (req, res) => {
     try {
         const userId = res.locals.user;
         const { postId } = req.params;
-        const { title, content, image } = req.body;
+        const file = req.file;
+        const { title, content } = req.body;
 
         // ?
-        if (!title && !content && !image) {
+        if (!title && !content) {
             return res.status(400).json({
                 sucess: false,
                 message: '수정 정보가 없습니다.',
@@ -74,13 +97,32 @@ postsRouter.put('/:postId', needSignin, async (req, res) => {
             }
         }
 
+        const params = {
+            Bucket: 'my-kimbuket',
+            Key: v4(),
+            Body: file.buffer,
+            ContentType: file.mimetype,
+            ACL: 'public-read',
+        };
+
+        let result;
+        try {
+            result = await s3.upload(params).promise();
+        } catch (err) {
+            console.log(err);
+            return res.status(500).json({
+                sucess: false,
+                message: '파일 업로드에 실패하였습니다.',
+            });
+        }
+
         await post.update(
             {
                 ...(title && { title }),
                 ...(content && { content }),
-                ...(image && { image }),
+                image: result.Location,
             },
-            { where: { id: postId } },
+            { where: { id: postId } }
         );
 
         //
