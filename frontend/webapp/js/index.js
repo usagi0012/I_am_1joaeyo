@@ -4,39 +4,8 @@ const bestCardContainer = document.getElementById('bestCardContainer');
 //기본 메인 페이지 불러오기
 window.onload = loadData;
 
-// 로그인 여부 확인
-function checkLogin() {
-    const storedToken = localStorage.getItem('access_token');
-    console.log(storedToken);
-    fetch('http://localhost:3050/user/members', {
-        method: 'GET',
-        headers: {
-            Accept: 'application/json',
-            Authorization: `Bearer ${accessToken}`,
-        },
-    })
-        .then(res => res.json())
-        .then(data => {
-            // 서버로부터 받은 데이터를 기반으로 동작을 수행합니다.
-            if (data.loggedIn) {
-                // 로그인된 상태이면 마이페이지로 이동
-                window.location.href = '마이페이지 주소';
-            } else {
-                // 로그인되지 않은 상태이면 로그인 페이지로 이동
-                window.location.href = '로그인 페이지 주소';
-            }
-        })
-        .catch(err => {
-            console.error('로그인 상태 확인 중 에러:', err);
-            // 에러 발생 시에는 어떤 동작을 할지 결정합니다.
-            // 여기에서는 간단하게 알림을 띄우도록 했습니다.
-            alert('로그인 상태 확인 중 에러가 발생했습니다.');
-        });
-}
-
 //카드 로드
 function loadData(sort) {
-    console.log('hi');
     fetch('http://localhost:3050/posts', {
         method: 'GET',
         headers: {
@@ -45,7 +14,6 @@ function loadData(sort) {
     })
         .then(res => res.json())
         .then(res => {
-            //나중에 콘솔로그 지우쎄용 지원아 잊지말아라
             console.log(res.data);
             if (sort) {
                 return makePostList(res.bestdata, postCardContainer);
