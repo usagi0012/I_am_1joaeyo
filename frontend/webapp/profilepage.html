@@ -13,12 +13,13 @@
         />
         <link href="https://webfontworld.github.io/gmarket/GmarketSans.css" rel="stylesheet" />
         <link rel="stylesheet" href="css/profilepage.css" />
+        <script src="./js/profilepage.js" defer></script>
     </head>
 
     <body>
         <div id="wrap">
             <div class="headWrap">
-                <div class="logo">
+                <div class="logo" onclick="toHome()">
                     <img src="../resources/moovieLogo.png" id="moovieLogo" />
                 </div>
                 <div class="iconBox">
@@ -33,22 +34,11 @@
             <div class="bodyWrap">
                 <div class="profileContainer">
                     <h2>Profile</h2>
-                    <div class="profilebox">
-                        <div class="nicknameBox">기본닉네임</div>
-                        <div class="descriptionBox">개인소개</div>
-                    </div>
+                    <div class="profilebox" id="profilebox"></div>
                 </div>
                 <div class="postContainer">
                     <h2>Posts</h2>
-                    <div class="postBox">
-                        <div class="post">마지막 게시물</div>
-                    </div>
-                    <div class="postBox">
-                        <div class="post">두번째 게시물</div>
-                    </div>
-                    <div class="postBox">
-                        <div class="post">my first post</div>
-                    </div>
+                    <div id="postsBox"></div>
                 </div>
             </div>
         </div>

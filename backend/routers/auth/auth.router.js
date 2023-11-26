@@ -96,7 +96,6 @@ authRouter.post('/signup', async (req, res) => {
 //로그인 기능
 authRouter.post('/signin', async (req, res) => {
     const { email, password } = req.body;
-    console.log(email);
 
     const emailValidationRegex = new RegExp('[a-z0-9._]+@[a-z]+.[a-z]{2,3}');
     const isValidEmail = emailValidationRegex.test(email);
@@ -150,7 +149,6 @@ authRouter.post('/signin', async (req, res) => {
 //로그아웃 기능
 authRouter.post('/logout', async (req, res) => {
     const currentCookie = req.cookies.authorization;
-    g;
     res.clearCookie('authorization', { path: '/' });
 
     return res.status(200).json({
