@@ -3,13 +3,10 @@ import bcrypt from 'bcrypt';
 import db from '../../models/index.cjs';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import cookieParser from 'cookie-parser';
 
 dotenv.config();
 const authRouter = Router();
 const { Users } = db;
-
-authRouter.use(cookieParser());
 
 authRouter.get('/signup', (req, res) => {
     res.send(200);
@@ -22,7 +19,7 @@ authRouter.post('/signup', async (req, res) => {
         if (!nickname || !email || !password) {
             return res.status(400).send(
                 `<script type="text/javascript">alert("정보를 모두 입력해주세요.");document.location.href="http://127.0.0.1:5500/frontend/webapp/signup.html?";
-            </script>`,
+            </script>`
             );
         }
 
@@ -34,7 +31,7 @@ authRouter.post('/signup', async (req, res) => {
         if (!validNickname(nickname)) {
             return res.status(400).send(
                 `<script type="text/javascript">alert("닉네임은 한글, 영문, 숫자만 가능하며 2-10자리 사이여야 합니다.");document.location.href="http://127.0.0.1:5500/frontend/webapp/signup.html?";
-            </script>`,
+            </script>`
             );
         }
 
@@ -44,7 +41,7 @@ authRouter.post('/signup', async (req, res) => {
         if (!isValidEmail) {
             return res.status(400).send(
                 `<script type="text/javascript">alert("이메일 형식이 올바르지 않습니다.");document.location.href="http://127.0.0.1:5500/frontend/webapp/signup.html?";
-            </script>`,
+            </script>`
             );
         }
 
@@ -52,7 +49,7 @@ authRouter.post('/signup', async (req, res) => {
         if (existUser) {
             return res.status(400).send(
                 `<script type="text/javascript">alert("이미 가입된 이메일입니다.");document.location.href="http://127.0.0.1:5500/frontend/webapp/login.html?";
-            </script>`,
+            </script>`
             );
         }
 
@@ -64,14 +61,14 @@ authRouter.post('/signup', async (req, res) => {
         if (!validPassword(password)) {
             return res.status(400).send(
                 `<script type="text/javascript">alert("비밀번호는 8-20자 영문, 숫자 조합으로 이루어져야 합니다.");document.location.href="http://127.0.0.1:5500/frontend/webapp/signup.html?";
-            </script>`,
+            </script>`
             );
         }
 
         if (password !== passwordConfirm) {
             return res.status(400).send(
                 `<script type="text/javascript">alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");document.location.href="http://127.0.0.1:5500/frontend/webapp/signup.html?";
-            </script>`,
+            </script>`
             );
         }
 
@@ -82,7 +79,7 @@ authRouter.post('/signup', async (req, res) => {
 
         return res.status(201).send(
             `<script type="text/javascript">alert("회원가입에 성공했습니다.");document.location.href="http://127.0.0.1:5500/frontend/webapp/login.html?";
-        </script>`,
+        </script>`
         );
     } catch (error) {
         console.log(error);
@@ -96,7 +93,6 @@ authRouter.post('/signup', async (req, res) => {
 //로그인 기능
 authRouter.post('/signin', async (req, res) => {
     const { email, password } = req.body;
-    console.log(email);
 
     const emailValidationRegex = new RegExp('[a-z0-9._]+@[a-z]+.[a-z]{2,3}');
     const isValidEmail = emailValidationRegex.test(email);
@@ -133,10 +129,10 @@ authRouter.post('/signin', async (req, res) => {
         });
         return res
             .status(200)
-            .cookie('authorization', `Bearer ${accessToken}`)
+            .header('authorization', `Bearer ${accessToken}`)
             .send(
-                `<script type="text/javascript">alert("로그인에 성공했습니다.");document.location.href="http://127.0.0.1:5500/frontend/webapp/index.html";
-            </script>`,
+                `<script type="text/javascript">alert("로그인에 성공했습니다.");document.location.href="http://127.0.0.1:5500/I_am_1joaeyo/frontend/webapp/index.html";
+            </script>`
             );
     } catch (error) {
         console.log(error);
@@ -148,14 +144,20 @@ authRouter.post('/signin', async (req, res) => {
 });
 
 //로그아웃 기능
+<<<<<<< HEAD
+// authRouter.post('/logout', async (req, res) => {
+//     const currentCookie = req.cookies.authorization;
+//     g;
+//     res.clearCookie('authorization', { path: '/' });
+=======
 authRouter.post('/logout', async (req, res) => {
     const currentCookie = req.cookies.authorization;
-    g;
     res.clearCookie('authorization', { path: '/' });
+>>>>>>> 9faca8284b42375b8827717d3261b6e5788c2cb2
 
-    return res.status(200).json({
-        success: true,
-        message: '로그아웃에 성공했습니다.',
-    });
-});
+//     return res.status(200).json({
+//         success: true,
+//         message: '로그아웃에 성공했습니다.',
+//     });
+// });
 export default authRouter;
