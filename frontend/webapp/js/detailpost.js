@@ -5,7 +5,7 @@ function toHome() {
 const content = document.getElementById('content');
 const commentContainer = document.getElementById('commentContainer');
 const commentWriteNickname = document.getElementById('commentWriteNickname');
-
+const token = window.localStorage.getItem('token');
 const url = new URLSearchParams(window.location.search);
 const postnum = url.get('id');
 
@@ -67,10 +67,7 @@ function loadComment(postId) {
                     commentContainer.innerHTML += `<div class="comment">
                 <div class="commentNickname" onclick="toProfilepage(${e.userId})" >${e.users.nickname}</div>
                 <div class="commentContent">${e.content}</div>
-                <button type="button" class="editIcon">
-                    <i class="fas fa-solid fa-pen-to-square"></i>
-                </button>
-                <button type="button" class="deleteIcon">
+                <button type="button" class="deleteIcon" onclick="deleteComment(${postId},${e.id})">
                     <i class="fas fa-solid fa-trash"></i>
                 </button>
             </div>`;
@@ -79,6 +76,7 @@ function loadComment(postId) {
         .catch(err => alert('데이터 정보를 불러오지 못했습니다. 에러 : ' + err));
 }
 
+//댓글 등록
 const commentEditIcon = document.getElementById('commentEditIcon');
 commentEditIcon.addEventListener('click', function (e) {
     e.preventDefault;
@@ -87,18 +85,45 @@ commentEditIcon.addEventListener('click', function (e) {
 
 function createComment(postId) {
     const commentText = document.getElementById('commentWriteContent').value;
-    console.log(commentText);
+    if (!token) {
+        return alert('로그인 후 이용 가능한 기능입니다.');
+    }
     fetch(`http://localhost:3050/posts/${postId}/comments`, {
         method: 'POST',
         headers: {
-            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            authorization: token,
         },
         body: JSON.stringify({
             content: commentText,
         }),
     })
         .then(res => res.json())
-        .then(res => console.log(res))
+        .then(res => {
+            alert(res.message);
+            location.reload();
+        })
+        .catch(err => alert('데이터 정보를 불러오지 못했습니다. 에러 : ' + err));
+}
+
+//댓글 삭제
+
+function deleteComment(postId, commentId) {
+    if (!token) {
+        return alert('로그인 후 이용 가능한 기능입니다.');
+    }
+    fetch(`http://localhost:3050/posts/${postId}/${commentId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            authorization: token,
+        },
+    })
+        .then(res => res.json())
+        .then(res => {
+            alert(res.message);
+            location.reload();
+        })
         .catch(err => alert('데이터 정보를 불러오지 못했습니다. 에러 : ' + err));
 }
 
