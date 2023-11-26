@@ -71,7 +71,7 @@ usersRouter.patch('/members', needSignin, async (req, res) => {
     try {
         const { nickname, description, currentPassword, newPassword, confirmNewPassword } = req.body;
         const id = res.locals.user;
-
+        console.log(nickname, description);
         //닉네임 형식이 올바르지 않은 경우
         //닉네임 유효성 검사 함수
         const validNickname = nickname => {
@@ -135,7 +135,7 @@ usersRouter.patch('/members', needSignin, async (req, res) => {
                 ...(description && { description }),
                 password: newHashedPassword,
             },
-            { where: { id } },
+            { where: { id } }
         );
         res.status(200).json({
             success: true,

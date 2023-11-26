@@ -1,18 +1,17 @@
 import jwt from 'jsonwebtoken';
 import db from '../models/index.cjs';
 import dotenv from 'dotenv';
-import cookieParser from 'cookie-parser';
-import authRouter from '../routers/auth/auth.router.js';
 
 dotenv.config();
 
 const { Users } = db;
 
-authRouter.use(cookieParser());
 export const needSignin = async (req, res, next) => {
     //인증 정보가 없는경우
+    console.log(req.cookies);
     try {
-        const authorizationHeader = req.cookies && req.cookies.authorization;
+        const authorizationHeader = req.headers.authorization;
+        console.log(req.headers);
         console.log('Authorization Header:', authorizationHeader);
         if (!authorizationHeader) {
             return res.status(400).json({
@@ -22,19 +21,14 @@ export const needSignin = async (req, res, next) => {
         }
 
         //토큰 형식이 일치하지 않는경우
-        const [tokenType, accessToken] = authorizationHeader?.split(' ');
+        const [tokenType, accessToken] = authorizationHeader.split(' ');
+        console.log(accessToken);
+        console.log(tokenType);
 
-        if (tokenType !== 'Bearer') {
-            res.status(400).json({
+        if (!tokenType || !accessToken) {
+            return res.status(400).json({
                 success: false,
-                message: '지원하지 않는 인증 방식입니다.',
-            });
-        }
-
-        if (!accessToken) {
-            res.status(400).json({
-                success: false,
-                message: 'Access토큰이 없습니다.',
+                message: '토큰 형식이 올바르지 않습니다.',
             });
         }
 

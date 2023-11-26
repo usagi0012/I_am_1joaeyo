@@ -20,11 +20,10 @@ app.set('view engine', 'ejs');
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded());
-app.use(express.json());
 app.use(bodyParser.json());
-app.use(cors());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
+app.options('*', cors());
 
 app.use(apiRouter);
 
