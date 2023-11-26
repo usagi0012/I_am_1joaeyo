@@ -4,8 +4,13 @@ function toHome() {
 
 const content = document.getElementById('content');
 const commentContainer = document.getElementById('commentContainer');
+const commentWriteNickname = document.getElementById('commentWriteNickname');
 
-window.onload = loadPost(24);
+const url = new URLSearchParams(window.location.search);
+let postnum = url.get('id');
+console.log(postnum);
+
+window.onload = loadPost(postnum);
 
 function loadPost(postId) {
     fetch(`http://localhost:3050/posts/${postId}`, {
@@ -72,4 +77,19 @@ function loadComment(postId) {
             });
         })
         .catch(err => alert('데이터 정보를 불러오지 못했습니다. 에러 : ' + err));
+}
+
+function createComment() {
+    const commentText = document.getElementById('commentWriteContent').value;
+    console.log(commentText);
+    // fetch(`http://localhost:3050/posts/${postId}/comments`, {
+    //     method: 'POST',
+    //     headers: {
+    //         Accept: 'application/json',
+    //     },
+    //     body: JSON.stringify({
+    //         email: email,
+    //         password: password,
+    //     }),
+    // });
 }

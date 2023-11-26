@@ -31,7 +31,7 @@ function makePostList(data, cardContainer) {
     cardContainer.innerHTML = '';
     data.forEach(e => {
         cardContainer.innerHTML += `
-          <div class="postCard">
+          <div class="postCard" onclick="toDetailPage(${e.id})">
             <div class="imageBox">
               <img class="postImg" src="${e.image}" />
             </div>
@@ -39,6 +39,7 @@ function makePostList(data, cardContainer) {
               <h3 class="postTitle">${e.title}</h3>
               <div class="cardFoot">
                 <h5 class="postWriter">${e.user.nickname}</h5>
+                <input type="hidden" name="postNum" value="${e.id}" />
                 <div class="likes">
                 ${e.likes.length}
                 <i class="fas fa-solid fa-heart"></i>
@@ -60,4 +61,9 @@ function sortPostList(value) {
     } else {
         loadData();
     }
+}
+
+//게시글 상세페이지로 이동시키는 함수
+function toDetailPage(postId) {
+    location.href = `http://127.0.0.1:5500/frontend/webapp/detailpost.html?id=${postId}`;
 }
