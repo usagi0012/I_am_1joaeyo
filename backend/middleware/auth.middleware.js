@@ -11,6 +11,7 @@ const { Users } = db;
 authRouter.use(cookieParser());
 export const needSignin = async (req, res, next) => {
     //인증 정보가 없는경우
+    console.log(req.cookies);
     try {
         const authorizationHeader = req.cookies && req.cookies.authorization;
         console.log('Authorization Header:', authorizationHeader);

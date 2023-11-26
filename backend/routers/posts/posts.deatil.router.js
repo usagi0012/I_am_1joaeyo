@@ -106,16 +106,32 @@ postsRouter.get('/:postId', async (req, res) => {
 });
 
 /**
- * 테스트용 데이터 생성 API
+ * 마이페이지 게시글 조회 API
  */
-postsRouter.post('/testCreate', async (req, res) => {
-    const result = await Posts.create({
-        title: '테스트 포스트',
-        content: '테스트 컨텐츠',
-        userId: 1,
+postsRouter.get('/userPosts', async (req, res) => {
+    const id = 1;
+
+    const posts = await Posts.findAll({
+        where: {
+            id,
+        },
+        attributes: ['id', 'title', 'userId', 'createdAt'],
+        include: [
+            {
+                model: Users,
+                as: 'user',
+                attributes: ['nickname'],
+            },
+            {
+                model: Likes,
+                as: 'likes',
+                attributes: ['userId'],
+            },
+        ],
+        order: [['createdAt', 'DESC']],
     });
 
-    res.status(200).json(result);
+    res.status(200).json(Response.successResult('게시글 조회 성공', posts));
 });
 
 export default postsRouter;
