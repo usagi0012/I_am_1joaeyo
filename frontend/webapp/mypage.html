@@ -22,6 +22,9 @@
                     <img src="../resources/moovieLogo.png" id="moovieLogo" />
                 </div>
                 <div class="iconBox">
+                    <button type="button" class="icon" id="logout">
+                        <i class="fas fa-solid fa-right-to-bracket"></i>
+                    </button>
                     <button type="button" class="icon" id="addPost">
                         <i class="fas fa-solid fa-pen-to-square"></i>
                     </button>
@@ -39,7 +42,14 @@
                             <input type="text" value="testname" required="" />
                         </div>
                         <div class="descriptionBox">
-                            <textarea maxlength="300">기본 값을 어떻게 넣어야할지 모르겠어요</textarea>
+                            <input
+                                type="text"
+                                value="기본 값을 어떻게 넣어야할지 모르겠어요"
+                                required=""
+                                id="descriptionArea"
+                                max="50"
+                            />
+                            <!-- <textarea maxlength="300">기본 값을 어떻게 넣어야할지 모르겠어요</textarea> -->
                             <!-- <input type="text" value="testdescription" required="" /> -->
                         </div>
                         <button class="submitBtn" type="submit">edit</button>
