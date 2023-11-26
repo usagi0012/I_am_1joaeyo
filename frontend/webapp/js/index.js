@@ -6,7 +6,6 @@ window.onload = loadData();
 
 //카드 로드
 function loadData(sort) {
-    console.log('hi');
     fetch('http://localhost:3050/posts', {
         method: 'GET',
         headers: {
@@ -15,7 +14,6 @@ function loadData(sort) {
     })
         .then(res => res.json())
         .then(res => {
-            //나중에 콘솔로그 지우쎄용 지원아 잊지말아라
             console.log(res.data);
             if (sort) {
                 return makePostList(res.bestdata, postCardContainer);
