@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
@@ -60,14 +60,14 @@
                     <h2>Password</h2>
                     <form class="formBox">
                         <div class="passwordBox">
-                            <input type="text" id="currentPwd" placeholder="current password" required="" />
-                            <input type="text" id="newPwd" placeholder="new password" required="" />
-                            <input type="text" id="newPwdConfirm" placeholder="new password confirm" required="" />
+                            <input type="password" id="currentPwd" placeholder="current password" required="" />
+                            <input type="password" id="newPwd" placeholder="new password" required="" />
+                            <input type="password" id="newPwdConfirm" placeholder="new password confirm" required="" />
                         </div>
                         <button class="submitBtn" type="button" onclick="updateUserInfo()">edit</button>
                     </form>
                 </div>
-                <div class="myPostContainer">
+                <div class="myPostContainer" id="myPostContainer">
                     <h2>Posts</h2>
                     <div class="myPostBox">
                         <div class="myPost">마지막 게시물</div>

@@ -10,7 +10,7 @@ const { Posts } = db;
 // 게시글 작성 API
 postsRouter.post('/', [needSignin, upload.single('file')], async (req, res) => {
     try {
-        const userId = req.locals.user;
+        const userId = res.locals.user;
         const file = req.file;
         const { title, content } = req.body;
 
@@ -71,9 +71,9 @@ postsRouter.post('/', [needSignin, upload.single('file')], async (req, res) => {
 });
 
 // 게시글 수정 API
-postsRouter.put('/:postId', [needSignin, upload.single('file')], async (req, res) => {
+postsRouter.patch('/:postId', [needSignin, upload.single('file')], async (req, res) => {
     try {
-        const userId = req.locals.user;
+        const userId = res.locals.user;
         const { postId } = req.params;
         const file = req.file;
         const { title, content } = req.body;
@@ -103,31 +103,37 @@ postsRouter.put('/:postId', [needSignin, upload.single('file')], async (req, res
                 });
             }
         }
-
-        const params = {
-            Bucket: 'my-kimbuket',
-            Key: v4(),
-            Body: file.buffer,
-            ContentType: file.mimetype,
-            ACL: 'public-read',
-        };
-
+        console.log(file);
         let result;
-        try {
-            result = await s3.upload(params).promise();
-        } catch (err) {
-            console.log(err);
-            return res.status(500).json({
-                sucess: false,
-                message: '파일 업로드에 실패하였습니다.',
-            });
+        if (file) {
+            const params = {
+                Bucket: 'my-kimbuket',
+                Key: v4(),
+                Body: file.buffer,
+                ContentType: file.mimetype,
+                ACL: 'public-read',
+            };
+
+            try {
+                result = await s3.upload(params).promise();
+                result = result.Location;
+                console.log('결과 :', result);
+            } catch (err) {
+                console.log(err);
+                return res.status(500).json({
+                    sucess: false,
+                    message: '파일 업로드에 실패하였습니다.',
+                });
+            }
+        } else {
+            result = post.dataValues.image;
         }
 
         await post.update(
             {
-                ...(title && { title }),
-                ...(content && { content }),
-                image: result.Location,
+                title,
+                content,
+                image: result,
             },
             { where: { id: postId } }
         );
@@ -155,7 +161,7 @@ postsRouter.put('/:postId', [needSignin, upload.single('file')], async (req, res
 // 게시글 삭제 API
 postsRouter.delete('/:postId', needSignin, async (req, res) => {
     try {
-        const userId = req.locals.user;
+        const userId = res.locals.user;
         const { postId } = req.params;
 
         const post = await Posts.findByPk(postId);

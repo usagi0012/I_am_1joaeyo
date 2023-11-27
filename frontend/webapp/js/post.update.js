@@ -1,22 +1,22 @@
-const submitForm = () => {
-    const form = document.querySelector('#createForm');
-    const formData = new FormData(form);
-    const headers = new Headers();
+const token = window.localStorage.getItem('token');
+let postId;
 
-    headers.append(
-        'Authorization',
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImlhdCI6MTcwMDk2OTUwMSwiZXhwIjoxNzAwOTczMTAxfQ.10Ho9-OBMD8ndLNpPW658gZGIgyFJsqiKqiZljrLP2M'
-    );
-    fetch('http://localhost:3050/posts', {
+const submitForm = () => {
+    const form = document.querySelector('#updateForm');
+    const formData = new FormData(form);
+
+    fetch(`http://localhost:3050/posts/${postId}`, {
         method: 'PATCH',
         body: formData,
-        headers,
+        headers: {
+            Authorization: token,
+        },
     })
         .then(response => response.json())
         .then(data => {
             if (data.success) {
                 alert(data.message);
-                location.href = 'index.html';
+                location.reload(true);
             } else {
                 alert(data.message);
                 return;
@@ -25,15 +25,30 @@ const submitForm = () => {
         .catch(error => console.error('Error:', error));
 };
 
+/**
+ * 게시글 상세 조회
+ */
 const getPost = () => {
-    fetch('http://localhost:3050/posts/10', {
+    const url = new URL(window.location.href);
+    const urlParams = url.searchParams;
+    postId = urlParams.get('q');
+    fetch(`http://localhost:3050/posts/${postId}`, {
         method: 'GET',
     })
         .then(response => response.json())
-        .then(data => {
-            console.log(data);
+        .then(response => {
+            console.log(response.data);
+            printPost(response.data);
         })
         .catch(error => console.error('Error:', error));
+};
+
+const printPost = data => {
+    const title = document.querySelector('#title');
+    const content = document.querySelector('#content');
+
+    title.value = data.title;
+    content.value = data.content;
 };
 
 window.onload = getPost();

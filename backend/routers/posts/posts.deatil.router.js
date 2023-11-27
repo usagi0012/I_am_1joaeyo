@@ -106,34 +106,4 @@ postsRouter.get('/:postId', async (req, res) => {
     });
 });
 
-/**
- * 마이페이지 게시글 조회 API
- */
-postsRouter.get('/userPosts', needSignin, async (req, res) => {
-    const userId = req.locals.user;
-
-    console.log('게시글조회');
-    const posts = await Posts.findAll({
-        where: {
-            userId,
-        },
-        attributes: ['id', 'title', 'userId', 'createdAt'],
-        include: [
-            {
-                model: Users,
-                as: 'user',
-                attributes: ['nickname'],
-            },
-            {
-                model: Likes,
-                as: 'likes',
-                attributes: ['userId'],
-            },
-        ],
-        order: [['createdAt', 'DESC']],
-    });
-
-    res.status(200).json(Response.successResult('게시글 조회 성공', posts));
-});
-
 export default postsRouter;

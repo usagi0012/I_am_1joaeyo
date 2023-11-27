@@ -1,8 +1,8 @@
 //기본 메인 페이지 불러오기
 
 const loadData = () => {
-    getUserInfo();
     getUserPosts();
+    getUserInfo();
 };
 
 //유정 정보를 불러오기 위해 로컬스토리지에서 토큰 가져오기
@@ -59,15 +59,16 @@ const updateUserInfo = () => {
  * 유저 게시글 목록 조회
  */
 const getUserPosts = () => {
-    fetch('http://localhost:3050/posts/userPosts', {
+    fetch('http://localhost:3050/user/posts', {
         method: 'GET',
         headers: {
-            authorization: headerToken,
+            authorization: token,
         },
     })
         .then(response => response.json())
-        .then(data => {
-            console.log(data);
+        .then(response => {
+            console.log(response.data);
+            makePostList(response.data);
         })
         .catch(error => console.error('Error:', error));
 };
@@ -87,6 +88,30 @@ const getUserInfo = () => {
             console.log(data);
             if (data.success) {
                 printUserInfo(data);
+            } else {
+                alert(data.message);
+                return;
+            }
+        })
+        .catch(error => console.error('Error:', error));
+};
+
+/**
+ * 유저 게시글 삭제
+ */
+const deleteUserPosts = id => {
+    fetch(`http://localhost:3050/posts/${id}`, {
+        method: 'DELETE',
+        headers: {
+            authorization: token,
+        },
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            if (data.success) {
+                alert(data.message);
+                location.reload(true);
             } else {
                 alert(data.message);
                 return;
@@ -126,6 +151,30 @@ function createPostIcon() {
 //홈버튼
 function toHome() {
     location.href = 'http://127.0.0.1:5500/frontend/webapp/index.html';
+}
+
+//수정 화면 이동
+function toUpdate(id) {
+    location.href = `http://127.0.0.1:5500/frontend/webapp/post.update.html?q=${id}`;
+}
+
+//게시글 리스트 생성
+function makePostList(data) {
+    const bestCardContainer = document.getElementById('myPostContainer');
+    bestCardContainer.innerHTML = '';
+
+    data.forEach(e => {
+        bestCardContainer.innerHTML += `
+        <div class="myPostBox">
+        <div class="myPost">${e.title}</div>
+        <button type="button" class="editPostIcon" onclick="toUpdate(${e.id})">
+            <i class="fas fa-solid fa-pen-to-square"></i>
+        </button>
+        <button type="button" class="deletePostIcon" onclick="deleteUserPosts(${e.id})">
+            <i class="fas fa-solid fa-trash"></i>
+        </button>
+        </div>`;
+    });
 }
 
 window.onload = loadData();
