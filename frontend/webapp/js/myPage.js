@@ -203,7 +203,7 @@ function makePostList(data) {
     data.forEach(e => {
         bestCardContainer.innerHTML += `
         <div class="myPostBox">
-        <div class="myPost">${e.title}</div>
+        <div class="myPost" onclick="toDetailPage(${e.id})">${e.title}</div>
         <button type="button" class="editPostIcon" onclick="toUpdate(${e.id})">
             <i class="fas fa-solid fa-pen-to-square"></i>
         </button>
@@ -212,6 +212,11 @@ function makePostList(data) {
         </button>
         </div>`;
     });
+}
+
+//게시글 상세페이지로 이동시키는 함수
+function toDetailPage(postId) {
+    location.href = `http://127.0.0.1:5500/frontend/webapp/detailpost.html?id=${postId}`;
 }
 
 window.onload = loadData();

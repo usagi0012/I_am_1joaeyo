@@ -5,7 +5,7 @@ const submitForm = () => {
     const form = document.querySelector('#updateForm');
     const formData = new FormData(form);
 
-    fetch('http://localhost:3050/posts', {
+    fetch(`http://localhost:3050/posts/${postId}`, {
         method: 'PATCH',
         body: formData,
         headers: {
@@ -16,7 +16,7 @@ const submitForm = () => {
         .then(data => {
             if (data.success) {
                 alert(data.message);
-                location.reload(true);
+                location.href = 'http://127.0.0.1:5500/frontend/webapp/mypage.html';
             } else {
                 alert(data.message);
                 return;
