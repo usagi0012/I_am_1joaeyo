@@ -43,7 +43,6 @@ const getPost = () => {
         .catch(error => console.error('Error:', error));
 };
 
-<<<<<<< HEAD
 const printPost = data => {
     const title = document.querySelector('#title');
     const content = document.querySelector('#content');
@@ -51,7 +50,7 @@ const printPost = data => {
     title.value = data.title;
     content.value = data.content;
 };
-=======
+
 //로그인 상태에 따른 회원 아이콘 클릭시 이동 함수
 function profileIcon() {
     if (confirm('글 작성을 멈추고 마이페이지로 이동하시겠습니까? 작성 중인 글은 저장되지 않습니다.') == true) {
@@ -76,6 +75,5 @@ function createPostIcon() {
         }
     }
 }
->>>>>>> 19175e60fa8c4a6a45d84cc1f1d55dd637db44d7
 
 window.onload = getPost();
