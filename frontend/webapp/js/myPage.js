@@ -62,7 +62,7 @@ const getUserPosts = () => {
     fetch('http://localhost:3050/posts/userPosts', {
         method: 'GET',
         headers: {
-            authorization: headerToken,
+            authorization: token,
         },
     })
         .then(response => response.json())
@@ -84,7 +84,6 @@ const getUserInfo = () => {
     })
         .then(response => response.json())
         .then(data => {
-            console.log(data);
             if (data.success) {
                 printUserInfo(data);
             } else {
@@ -102,26 +101,26 @@ function logout() {
     location.href = 'http://127.0.0.1:5500/frontend/webapp/index.html';
 }
 
-// //회원 탈퇴 버튼 클릭
-// function deleteProfileIcon() {
-//     if (confirm('정말 회원탈퇴를 진행하시겠습니까?') == true) {
-//         const token = window.localStorage.getItem('token');
-//         fetch('http://localhost:3050/user/members', {
-//             method: 'DELETE',
-//             headers: {
-//                 authorization: token,
-//             },
-//         })
-//             .then(res => res.json())
-//             .then(res => {
-//                 console.log(res);
-//                 alert(res.message);
-//                 // window.localStorage.removeItem('token');
-//                 // location.href = 'http://127.0.0.1:5500/frontend/webapp/index.html';
-//             })
-//             .catch(error => console.error('Error:', error));
-//     }
-// }
+//회원 탈퇴 버튼 클릭
+function deleteProfileIcon() {
+    if (confirm('정말 회원탈퇴를 진행하시겠습니까?') == true) {
+        const token = window.localStorage.getItem('token');
+        fetch('http://localhost:3050/user/members', {
+            method: 'DELETE',
+            headers: {
+                authorization: token,
+            },
+        })
+            .then(res => res.json())
+            .then(res => {
+                console.log(res);
+                alert(res.message);
+                // window.localStorage.removeItem('token');
+                // location.href = 'http://127.0.0.1:5500/frontend/webapp/index.html';
+            })
+            .catch(error => console.error('Error:', error));
+    }
+}
 
 //로그인 상태에 따른 글 작성 아이콘 클릭시 이동 함수
 function createPostIcon() {
