@@ -3,9 +3,10 @@ import db from '../../models/index.cjs';
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
 import { needSignin } from '../../middleware/auth.middleware.js';
+import Response from '../../util/response/response.js';
 dotenv.config();
 const usersRouter = express.Router();
-const { Users, Posts } = db;
+const { Users, Posts, Likes } = db;
 
 //회원 정보 조회 API
 usersRouter.get('/members', needSignin, async (req, res) => {
@@ -168,4 +169,33 @@ usersRouter.delete('/members', needSignin, async (req, res) => {
     }
 });
 
+/**
+ * 마이페이지 게시글 조회 API
+ */
+usersRouter.get('/posts', needSignin, async (req, res) => {
+    const userId = res.locals.user;
+
+    console.log('게시글조회');
+    const posts = await Posts.findAll({
+        where: {
+            userId,
+        },
+        attributes: ['id', 'title', 'userId', 'createdAt'],
+        include: [
+            {
+                model: Users,
+                as: 'user',
+                attributes: ['nickname'],
+            },
+            {
+                model: Likes,
+                as: 'likes',
+                attributes: ['userId'],
+            },
+        ],
+        order: [['createdAt', 'DESC']],
+    });
+
+    res.status(200).json(Response.successResult('게시글 조회 성공', posts));
+});
 export default usersRouter;
