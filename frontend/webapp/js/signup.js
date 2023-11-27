@@ -29,7 +29,7 @@ document.querySelector('form').addEventListener('submit', async function (event)
 
         if (data.success) {
             alert('회원가입에 성공했습니다.');
-            window.location.href = 'http://127.0.0.1:5500/I_am_1joaeyo/frontend/webapp/login.html';
+            window.location.href = 'http://127.0.0.1:5500/frontend/webapp/login.html';
         } else {
             alert('회원가입에 실패했습니다. ' + data.message);
         }
