@@ -22,7 +22,7 @@ submitBtn.addEventListener('click', async function (event) {
         console.log(data);
         window.localStorage.setItem('token', data.data);
         if (data.success) {
-            window.location.href = 'http://127.0.0.1:5500/frontend/webapp/index.html';
+            window.location.href = 'http://127.0.0.1:5500/I_am_1joaeyo/frontend/webapp/index.html';
         } else {
             alert('아이디 비밀번호를 확인해주세요.');
         }

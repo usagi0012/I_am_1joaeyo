@@ -61,6 +61,43 @@ function sortPostList(value) {
     }
 }
 
+//검색하기 기능
+const searchForm = document.getElementById('searchBox');
+
+searchForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const searchTerm = document.getElementById('searchInput').value;
+    if (searchTerm.trim() === '') {
+        loadData();
+    } else {
+        loadDataAndSearch(searchTerm);
+    }
+});
+
+function loadDataAndSearch(searchTerm) {
+    fetch('http://localhost:3050/posts', {
+        method: 'GET',
+        headers: {
+            Accept: 'application/json',
+        },
+    })
+        .then(res => res.json())
+        .then(data => {
+            const searchResults = searchInData(data.data, searchTerm);
+            updateUI(searchResults);
+        })
+        .catch(err => alert('데이터 정보를 불러오지 못했습니다. 에러 : ' + err));
+}
+
+function searchInData(data, searchTerm) {
+    const searchResults = data.filter(post => post.title.includes(searchTerm));
+    return searchResults;
+}
+
+function updateUI(searchResults) {
+    makePostList(searchResults, document.getElementById('postCardContainer'));
+}
+
 //게시글 상세페이지로 이동시키는 함수
 function toDetailPage(postId) {
     location.href = `http://127.0.0.1:5500/frontend/webapp/detailpost.html?id=${postId}`;
